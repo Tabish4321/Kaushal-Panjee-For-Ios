@@ -1,0 +1,32 @@
+"app.name" = "कौशल पंजी";
+"app.department" = "ग्रामीण विकास मंत्रालय";
+
+"login.welcome" = "ग्रामीण आजीविका को अवसरों के माध्यम से सशक्त बनाना";
+
+"login.title" = "अपने खाते में लॉगिन करें";
+"login.subtitle" = "जारी रखने के लिए अपनी जानकारी सुरक्षित रूप से दर्ज करें";
+
+"login.id" = "लॉगिन आईडी";
+"login.id.placeholder" = "अपनी लॉगिन आईडी दर्ज करें";
+
+"login.password" = "पासवर्ड";
+"login.password.placeholder" = "अपना पासवर्ड दर्ज करें";
+
+"login.forgot_password" = "आईडी और पासवर्ड भूल गए?";
+
+"login.button" = "लॉगिन";
+"login.register" = "पंजीकरण";
+"login.about_unnati" = "उन्नति के बारे में";
+
+"login.language" = "भाषा";
+
+"login.secure.title" = "आपका डेटा हमारे पास सुरक्षित है";
+"login.secure.subtitle" = "हम उच्चतम स्तर की डेटा सुरक्षा सुनिश्चित करते हैं";
+
+"login.secure" = "आपकी जानकारी सुरक्षित रूप से संरक्षित है";
+
+"login.invalid_credentials" = "अमान्य लॉगिन आईडी या पासवर्ड। कृपया पुनः प्रयास करें।";
+
+"common.or" = "या";
+
+"common.version" = "संस्करण %@";

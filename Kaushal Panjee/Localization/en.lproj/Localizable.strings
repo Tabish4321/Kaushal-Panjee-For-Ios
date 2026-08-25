@@ -1,0 +1,69 @@
+"app.name" = "Kaushal Panjee";
+"app.department" = "Ministry of Rural Development";
+
+"login.welcome" = "Empowering rural livelihoods through opportunity";
+
+"login.title" = "Login to your account";
+"login.subtitle" = "Access your account to continue";
+
+"login.id" = "Login ID";
+"login.id.placeholder" = "Enter your Login ID";
+
+"login.password" = "Password";
+"login.password.placeholder" = "Enter your Password";
+
+"login.forgot_password" = "Forgot id and Password?";
+
+"login.button" = "Login";
+"login.register" = "Register";
+"login.about_unnati" = "About Unnati";
+
+"login.language" = "Language";
+
+"login.secure.title" = "Your data is safe with us";
+"login.secure.subtitle" = "We ensure the highest level of data security";
+
+"login.secure" = "Your information is securely protected";
+
+"login.invalid_credentials" = "Invalid login ID or password. Please try again.";
+
+"common.or" = "or";
+
+"common.version" = "Version %@";
+
+"registration.title" = "Registration";
+
+"registration.step.of" = "%d of %d";
+
+"registration.email.title" = "Create your account";
+"registration.email.subtitle" = "Enter your email address to continue. You can also skip this step.";
+"registration.email.label" = "Email Address";
+"registration.email.placeholder" = "Enter your email address";
+"registration.email.skip" = "Skip for now";
+"registration.email.skip.description" = "You can continue without adding an email address.";
+
+"registration.email.otp.title" = "Verify your email";
+"registration.email.otp.subtitle" = "We have sent a 4-digit verification code to";
+
+"registration.mobile.title" = "Enter your mobile number";
+"registration.mobile.subtitle" = "We will send a verification code to your mobile number.";
+"registration.mobile.label" = "Mobile Number";
+"registration.mobile.placeholder" = "Enter mobile number";
+"registration.mobile.send_otp" = "Send OTP";
+
+"registration.mobile.otp.title" = "Verify mobile number";
+"registration.mobile.otp.subtitle" = "We have sent a 4-digit verification code to";
+
+"registration.otp.enter" = "Enter verification code";
+"registration.otp.verify" = "Verify OTP";
+"registration.otp.not_received" = "Didn't receive the code?";
+"registration.otp.resend" = "Resend OTP";
+
+"registration.continue" = "Continue";
+
+"registration.complete.title" = "Verification completed";
+"registration.complete.subtitle" = "Your email and mobile number have been successfully verified.";
+
+
+
+

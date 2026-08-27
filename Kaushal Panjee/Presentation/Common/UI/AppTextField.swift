@@ -3,13 +3,17 @@ import SwiftUI
 struct AppTextField: View {
 
     let title: LocalizedStringKey
+
     let placeholder: LocalizedStringKey
+
     let icon: String
 
     @Binding var text: String
 
     var keyboardType: UIKeyboardType = .default
+
     var submitLabel: SubmitLabel = .done
+
     var submitButtonTitle: String = "Done"
 
     var onSubmit: (() -> Void)? = nil
@@ -52,12 +56,19 @@ struct AppTextField: View {
                     placeholder,
                     text: $text
                 )
-                .keyboardType(keyboardType)
-                .submitLabel(submitLabel)
+                .keyboardType(
+                    keyboardType
+                )
+                .submitLabel(
+                    submitLabel
+                )
                 .onSubmit {
+
                     onSubmit?()
                 }
-                .textInputAutocapitalization(.never)
+                .textInputAutocapitalization(
+                    .never
+                )
                 .autocorrectionDisabled()
                 .font(
                     .system(
@@ -67,10 +78,17 @@ struct AppTextField: View {
                 )
             }
 
-            Spacer(minLength: 0)
+            Spacer(
+                minLength: 0
+            )
         }
-        .padding(.horizontal, 11)
-        .frame(height: 60)
+        .padding(
+            .horizontal,
+            11
+        )
+        .frame(
+            height: 60
+        )
         .background(
             Color.appCard
         )
@@ -80,6 +98,7 @@ struct AppTextField: View {
             )
         )
         .overlay {
+
             RoundedRectangle(
                 cornerRadius: 14
             )
@@ -88,5 +107,43 @@ struct AppTextField: View {
                 lineWidth: 1
             )
         }
+
+        // MARK: - Keyboard Toolbar
+
+        .toolbar {
+
+            ToolbarItemGroup(
+                placement: .keyboard
+            ) {
+
+                Spacer()
+
+                Button(
+                    submitButtonTitle
+                ) {
+
+                    hideKeyboard()
+
+                    onSubmit?()
+                }
+                .fontWeight(
+                    .semibold
+                )
+            }
+        }
+    }
+
+    // MARK: - Hide Keyboard
+
+    private func hideKeyboard() {
+
+        UIApplication.shared.sendAction(
+            #selector(
+                UIResponder.resignFirstResponder
+            ),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }

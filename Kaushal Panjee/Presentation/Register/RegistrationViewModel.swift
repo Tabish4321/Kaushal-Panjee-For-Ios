@@ -24,6 +24,15 @@ final class RegistrationViewModel: ObservableObject {
     @Published var otp = ""
 
     // MARK: - Aadhaar
+    
+    @Published var aadhaarNumber = ""
+
+    @Published var isAadhaarValid = false
+
+    @Published var aadhaarValidationMessage = ""
+
+    @Published var isConsentAccepted = false
+
 
     @Published var candidateId = ""
 
@@ -34,10 +43,6 @@ final class RegistrationViewModel: ObservableObject {
     @Published var selectedStateLGDCode = ""
 
     @Published var selectedStateCode = ""
-
-    @Published var aadhaarNumber = ""
-
-    @Published var isConsentAccepted = false
 
     // MARK: - Verification
 
@@ -509,27 +514,21 @@ final class RegistrationViewModel: ObservableObject {
     // MARK: - Continue From State
 
     func continueFromState() {
-
         guard selectedState != nil else {
-
-            errorMessage =
-                "Please select a state"
-
+            errorMessage = "Please select a state"
             return
         }
 
         guard !selectedStateLGDCode.isEmpty else {
-
-            errorMessage =
-                "State LGD code is missing"
-
+            errorMessage = "State LGD code is missing"
             return
         }
 
         clearMessages()
 
         aadhaarNumber = ""
-
+        isAadhaarValid = false
+        aadhaarValidationMessage = ""
         isConsentAccepted = false
 
         step = .aadhaar
@@ -541,45 +540,23 @@ final class RegistrationViewModel: ObservableObject {
 
         clearMessages()
 
-        guard aadhaarNumber.count == 12 else {
-
-            errorMessage =
-                "Please enter a valid 12 digit Aadhaar number"
-
-            return
-        }
-
-        guard aadhaarNumber.allSatisfy({
-            $0.isNumber
-        }) else {
-
-            errorMessage =
-                "Aadhaar number must contain only digits"
-
+        guard isAadhaarValid else {
+            errorMessage = "Please enter a valid Aadhaar number"
             return
         }
 
         guard isConsentAccepted else {
-
-            errorMessage =
-                "Please accept the consent"
-
+            errorMessage = "Please accept the consent"
             return
         }
 
         guard !selectedStateLGDCode.isEmpty else {
-
-            errorMessage =
-                "Please select a state"
-
+            errorMessage = "Please select a state"
             return
         }
 
         guard !candidateId.isEmpty else {
-
-            errorMessage =
-                "Candidate ID is missing"
-
+            errorMessage = "Candidate ID is missing"
             return
         }
 
@@ -594,7 +571,6 @@ final class RegistrationViewModel: ObservableObject {
 
         // NEXT API YAHAN CALL HOGI
     }
-
     // MARK: - Resend Email OTP
 
     func resendEmailOTP() {
@@ -656,7 +632,7 @@ final class RegistrationViewModel: ObservableObject {
             step = .email
 
         case .mobile:
-            step = .email
+            step = .emailOTP
 
         case .mobileOTP:
             step = .mobile
@@ -671,7 +647,6 @@ final class RegistrationViewModel: ObservableObject {
             step = .aadhaar
         }
     }
-
     // MARK: - OTP Validation
 
     private func isValidOTP() -> Bool {
@@ -707,5 +682,35 @@ final class RegistrationViewModel: ObservableObject {
         errorMessage = ""
 
         successMessage = ""
+    }
+    
+    func validateAadhaar() {
+
+        let cleanedAadhaar = aadhaarNumber.filter {
+            $0.isNumber
+        }
+
+        aadhaarNumber = String(
+            cleanedAadhaar.prefix(12)
+        )
+
+        guard aadhaarNumber.count == 12 else {
+
+            isAadhaarValid = false
+
+            aadhaarValidationMessage = ""
+
+            return
+        }
+
+        let isValid = AadhaarValidator.shared.isValid(
+            aadhaarNumber
+        )
+
+        isAadhaarValid = isValid
+
+        aadhaarValidationMessage = isValid
+            ? "Valid Aadhaar number"
+            : "Invalid Aadhaar number"
     }
 }

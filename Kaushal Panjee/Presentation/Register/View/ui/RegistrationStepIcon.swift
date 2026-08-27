@@ -8,73 +8,49 @@ struct RegistrationStepIndicator: View {
 
     var body: some View {
 
-        VStack(
-            spacing: 8
+        HStack(
+            spacing: 0
         ) {
 
-            HStack(
-                spacing: 0
-            ) {
+            ForEach(
+                1...totalSteps,
+                id: \.self
+            ) { step in
 
-                ForEach(
-                    1...totalSteps,
-                    id: \.self
-                ) { step in
+                stepCircle(
+                    step
+                )
 
-                    stepItem(
-                        step: step
-                    )
+                if step < totalSteps {
 
-                    if step < totalSteps {
-
-                        Rectangle()
-                            .fill(
-                                step < currentStep
-                                ? Color.appPrimary
-                                : Color.appBorder
-                            )
-                            .frame(
-                                height: 1
-                            )
-                            .padding(
-                                .horizontal,
-                                4
-                            )
-                    }
+                    Rectangle()
+                        .fill(
+                            Color.appBorder
+                        )
+                        .frame(
+                            height: 1
+                        )
+                        .frame(
+                            maxWidth: .infinity
+                        )
+                        .padding(
+                            .horizontal,
+                            6
+                        )
                 }
             }
-            .padding(
-                .horizontal,
-                24
-            )
-
-            Text(
-                String(
-                    format: NSLocalizedString(
-                        "registration.step.of",
-                        comment: ""
-                    ),
-                    currentStep,
-                    totalSteps
-                )
-            )
-            .font(
-                .system(
-                    size: 13,
-                    weight: .medium
-                )
-            )
-            .foregroundStyle(
-                Color.appTextSecondary
-            )
         }
+        .padding(
+            .horizontal,
+            42
+        )
     }
 
-    // MARK: - Step Item
+    // MARK: - Step Circle
 
     @ViewBuilder
-    private func stepItem(
-        step: Int
+    private func stepCircle(
+        _ step: Int
     ) -> some View {
 
         ZStack {
@@ -82,36 +58,44 @@ struct RegistrationStepIndicator: View {
             Circle()
                 .fill(
                     step == currentStep
-                    ? Color.appPrimary
-                    : Color.appSurface
+                        ? Color.appDarkGreen
+                        : Color.appCard
+                )
+                .frame(
+                    width: 38,
+                    height: 38
                 )
                 .overlay {
 
                     Circle()
                         .stroke(
                             step == currentStep
-                            ? Color.appPrimary
-                            : Color.appBorder,
+                                ? Color.appDarkGreen
+                                : Color.appBorder,
                             lineWidth: 1
                         )
                 }
-                .frame(
-                    width: 34,
-                    height: 34
-                )
 
-            Text("\(step)")
-                .font(
-                    .system(
-                        size: 14,
-                        weight: .semibold
-                    )
+            Text(
+                "\(step)"
+            )
+            .font(
+                .system(
+                    size: 16,
+                    weight: step == currentStep
+                        ? .bold
+                        : .regular
                 )
-                .foregroundStyle(
-                    step == currentStep
+            )
+            .foregroundStyle(
+                step == currentStep
                     ? Color.white
                     : Color.appTextSecondary
-                )
+            )
         }
+        .frame(
+            width: 38,
+            height: 38
+        )
     }
 }

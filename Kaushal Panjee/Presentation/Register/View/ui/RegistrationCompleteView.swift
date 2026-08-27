@@ -6,43 +6,61 @@ struct RegistrationCompleteView: View {
 
     var body: some View {
 
-        VStack(spacing: 24) {
+        VStack(
+            spacing: 0
+        ) {
 
-            Spacer(minLength: 20)
-
-            Image(
-                systemName: "checkmark.circle.fill"
-            )
-            .font(
-                .system(
-                    size: 80,
-                    weight: .regular
+            Spacer()
+                .frame(
+                    height: 20
                 )
-            )
-            .foregroundStyle(
-                Color.appGreen
-            )
 
-            VStack(spacing: 10) {
+            VStack(
+                alignment: .center,
+                spacing: 20
+            ) {
 
-                Text("Registration Complete")
-                    .font(
-                        .system(
-                            size: 26,
-                            weight: .bold
-                        )
+                // MARK: - Success Icon
+
+                Image(
+                    systemName: "checkmark.circle.fill"
+                )
+                .font(
+                    .system(
+                        size: 70
                     )
-                    .foregroundStyle(
-                        Color.appDarkGreen
+                )
+                .foregroundStyle(
+                    Color.appGreen
+                )
+                .padding(
+                    .top,
+                    10
+                )
+
+                // MARK: - Title
+
+                Text(
+                    "Registration Complete"
+                )
+                .font(
+                    .system(
+                        size: 26,
+                        weight: .bold
                     )
+                )
+                .foregroundStyle(
+                    Color.appDarkGreen
+                )
+
+                // MARK: - Description
 
                 Text(
                     "Your registration has been completed successfully."
                 )
                 .font(
                     .system(
-                        size: 15,
-                        weight: .regular
+                        size: 14
                     )
                 )
                 .foregroundStyle(
@@ -51,20 +69,24 @@ struct RegistrationCompleteView: View {
                 .multilineTextAlignment(
                     .center
                 )
-                .padding(
-                    .horizontal,
-                    20
-                )
-            }
 
-            if let selectedState = viewModel.selectedState {
+                Spacer()
+                    .frame(
+                        height: 8
+                    )
 
-                VStack(
-                    alignment: .leading,
-                    spacing: 8
-                ) {
+                // MARK: - Selected State
 
-                    Text("Selected State")
+                if let selectedState = viewModel.selectedState {
+
+                    VStack(
+                        alignment: .leading,
+                        spacing: 10
+                    ) {
+
+                        Text(
+                            "Selected State"
+                        )
                         .font(
                             .system(
                                 size: 13,
@@ -75,75 +97,130 @@ struct RegistrationCompleteView: View {
                             Color.appTextSecondary
                         )
 
-                    HStack {
+                        HStack(
+                            spacing: 12
+                        ) {
 
-                        Image(
-                            systemName: "location.fill"
-                        )
-                        .foregroundStyle(
-                            Color.appGreen
-                        )
-
-                        Text(
-                            selectedState.stateName
-                        )
-                        .font(
-                            .system(
-                                size: 17,
-                                weight: .semibold
+                            Image(
+                                systemName: "location.fill"
                             )
-                        )
-                        .foregroundStyle(
-                            Color.appDarkGreen
-                        )
+                            .font(
+                                .system(
+                                    size: 18
+                                )
+                            )
+                            .foregroundStyle(
+                                Color.appGreen
+                            )
 
-                        Spacer()
+                            Text(
+                                selectedState.stateName
+                            )
+                            .font(
+                                .system(
+                                    size: 17,
+                                    weight: .semibold
+                                )
+                            )
+                            .foregroundStyle(
+                                Color.appDarkGreen
+                            )
+
+                            Spacer()
+
+                            Image(
+                                systemName: "checkmark.circle.fill"
+                            )
+                            .foregroundStyle(
+                                Color.appGreen
+                            )
+                        }
+                    }
+                    .padding(
+                        16
+                    )
+                    .frame(
+                        maxWidth: .infinity,
+                        alignment: .leading
+                    )
+                    .background(
+                        Color.appCard
+                    )
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: 14
+                        )
+                    )
+                    .overlay {
+
+                        RoundedRectangle(
+                            cornerRadius: 14
+                        )
+                        .stroke(
+                            Color.appBorder,
+                            lineWidth: 1
+                        )
                     }
                 }
-                .padding(18)
-                .frame(
-                    maxWidth: .infinity,
-                    alignment: .leading
-                )
-                .background(
-                    Color.appCard
-                )
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: 16
-                    )
-                )
-                .overlay {
 
-                    RoundedRectangle(
-                        cornerRadius: 16
+                Spacer()
+                    .frame(
+                        height: 12
                     )
-                    .stroke(
-                        Color.appBorder,
-                        lineWidth: 1
-                    )
-                }
+
+                // MARK: - Continue Button
+
+                AppButton(
+                    title: "CONTINUE",
+                    icon: "arrow.right",
+                    action: {
+
+                        // Registration complete ke baad
+                        // next navigation yahan handle hogi
+                    }
+                )
+                .padding(
+                    .bottom,
+                    10
+                )
+            }
+            .padding(
+                20
+            )
+            .frame(
+                maxWidth: .infinity
+            )
+            .background(
+                Color.appCard
+            )
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: 20
+                )
+            )
+            .overlay {
+
+                RoundedRectangle(
+                    cornerRadius: 20
+                )
+                .stroke(
+                    Color.appBorder,
+                    lineWidth: 1
+                )
             }
 
-            Spacer()
-
-            AppButton(
-                title: "Continue",
-                icon: "arrow.right",
-                action: {
-
-                    // Next navigation yahan handle hogi
-
-                }
+            Spacer(
+                minLength: 30
             )
         }
+        .padding(
+            .horizontal,
+            20
+        )
         .frame(
             maxWidth: .infinity,
-            minHeight: 550
-        )
-        .padding(
-            .vertical,
-            20
+            minHeight: 500,
+            alignment: .top
         )
     }
 }

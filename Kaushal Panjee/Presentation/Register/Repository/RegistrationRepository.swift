@@ -101,4 +101,66 @@ final class RegistrationRepository {
             additionalHeaders: customHeaders
         )
     }
+    
+    
+
+    // MARK: - Check Aadhaar
+
+    func checkAadhaar(
+        aadhaarNumber: String
+    ) async throws ->
+    AadhaarCheckResponse {
+        
+
+        let encryptedAadhaar =
+            AESUtil.encryptIntoBase64String(
+                inputText: aadhaarNumber,
+                secretKey: AESUtil.cryptId,
+                ivKey: AESUtil.cryptIV
+            )
+
+        guard !encryptedAadhaar.isEmpty else {
+
+            throw NSError(
+                domain: "AadhaarEncryption",
+                code: -1,
+                userInfo: [
+                    NSLocalizedDescriptionKey:
+                        "Unable to encrypt Aadhaar number."
+                ]
+            )
+        }
+
+        print("Encrypted Aadhaar:")
+        print(encryptedAadhaar)
+
+        let request =
+            AadhaarCheckRequest(
+                appVersion: AppUtil.appVersion(),
+                userInput: encryptedAadhaar
+            )
+
+        return try await apiClient.request(
+            endpoint: APIConstants.checkUserExistance,
+            method: .post,
+            parameters: request,
+            requiresAuth: false
+        )
+    }
+    
+    
+    
+    
+    // MARK: - Face Authentication eKYC
+    func postEkyc(
+        parameters: [String: String]
+    ) async throws -> Data {
+
+        let ekycURL = "https://awaasplus.nic.in/uidService/Services/Service.svc/PostOnAUA_Face_auth"
+
+        return try await apiClient.requestExternalEkyc(
+            url: ekycURL,
+            parameters: parameters
+        )
+    }
 }

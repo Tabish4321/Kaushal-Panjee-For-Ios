@@ -169,6 +169,10 @@ struct LoginView: View {
         .background(
             Color.appBackground
         )
+        .ignoresSafeArea(
+            .keyboard,
+            edges: .bottom
+        )
 
         // MARK: Login → Home
 

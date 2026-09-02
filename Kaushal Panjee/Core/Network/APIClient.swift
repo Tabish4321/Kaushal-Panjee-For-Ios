@@ -437,4 +437,63 @@ final class APIClient {
 
         return .networkError
     }
+    
+    
+    // MARK: - External eKYC Request
+
+    func requestExternalEkyc(
+        url: String,
+        parameters: [String: String]
+    ) async throws -> Data {
+
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        ]
+
+        print("")
+        print("========== EKYC API REQUEST ==========")
+        print("URL: \(url)")
+        print("METHOD: POST")
+        print("PARAMETERS: \(parameters)")
+        print("======================================")
+
+        let request = AF.request(
+            url,
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        )
+
+        let response = await request
+            .validate()
+            .serializingData()
+            .response
+
+        print("")
+        print("========== EKYC API RESPONSE ==========")
+
+        if let statusCode = response.response?.statusCode {
+            print("STATUS CODE: \(statusCode)")
+        }
+
+        if let data = response.data {
+            print("RESPONSE:")
+            print(String(data: data, encoding: .utf8) ?? "")
+        }
+
+        print("=======================================")
+        print("")
+
+        if let error = response.error {
+            throw error
+        }
+
+        guard let data = response.data else {
+            throw APIError.decodingError
+        }
+
+        return data
+    }
 }

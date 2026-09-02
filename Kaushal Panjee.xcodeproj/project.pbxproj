@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5E6F1ED6302E0CC800D96DDA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5E6F1ED5302E0CC800D96DDA /* Alamofire */; };
+		5EF7BD3C304598470066575A /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF7BD3B304598470066575A /* XMLCoder */; };
+		5EF7BD3F304598650066575A /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF7BD3E304598650066575A /* SWXMLHash */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EF7BD3F304598650066575A /* SWXMLHash in Frameworks */,
+				5EF7BD3C304598470066575A /* XMLCoder in Frameworks */,
 				5E6F1ED6302E0CC800D96DDA /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +75,8 @@
 			name = "Kaushal Panjee";
 			packageProductDependencies = (
 				5E6F1ED5302E0CC800D96DDA /* Alamofire */,
+				5EF7BD3B304598470066575A /* XMLCoder */,
+				5EF7BD3E304598650066575A /* SWXMLHash */,
 			);
 			productName = "Kaushal Panjee";
 			productReference = 5E57B40C302CD3B900C0C20B /* Kaushal Panjee.app */;
@@ -103,6 +109,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				5E6F1ED4302E0CC800D96DDA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				5EF7BD3A304598470066575A /* XCRemoteSwiftPackageReference "XMLCoder" */,
+				5EF7BD3D304598650066575A /* XCRemoteSwiftPackageReference "SWXMLHash" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5E57B40D302CD3B900C0C20B /* Products */;
@@ -264,11 +272,14 @@
 				DEVELOPMENT_TEAM = 9H2PBWW252;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Kaushal-Panjee-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required for Aadhaar-based face authentication.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,11 +307,14 @@
 				DEVELOPMENT_TEAM = 9H2PBWW252;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Kaushal-Panjee-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required for Aadhaar-based face authentication.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -350,6 +364,22 @@
 				minimumVersion = 5.12.0;
 			};
 		};
+		5EF7BD3A304598470066575A /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MaxDesiatov/XMLCoder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.18.2;
+			};
+		};
+		5EF7BD3D304598650066575A /* XCRemoteSwiftPackageReference "SWXMLHash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/drmohundro/SWXMLHash.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -357,6 +387,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5E6F1ED4302E0CC800D96DDA /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		5EF7BD3B304598470066575A /* XMLCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5EF7BD3A304598470066575A /* XCRemoteSwiftPackageReference "XMLCoder" */;
+			productName = XMLCoder;
+		};
+		5EF7BD3E304598650066575A /* SWXMLHash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5EF7BD3D304598650066575A /* XCRemoteSwiftPackageReference "SWXMLHash" */;
+			productName = SWXMLHash;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

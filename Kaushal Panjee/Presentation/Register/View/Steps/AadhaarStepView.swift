@@ -4,91 +4,137 @@ struct AadhaarStepView: View {
 
     @ObservedObject var viewModel: RegistrationViewModel
 
+    @FocusState private var isAadhaarFieldFocused: Bool
+
+    @State private var isConsentExpanded = false
+
+    private let shortConsentText =
+        "I hereby state that I have no objection in authenticating myself with the Aadhaar-based authentication system and consent to providing my Aadhaar number..."
+
+    private let fullConsentText =
+        """
+        I hereby state that I have no objection in authenticating myself with the Aadhaar-based authentication system and consent to providing my Aadhaar number, biometric and/or One Time Pin (OTP) data for Aadhaar-based authentication for the purposes of availing the Unified IT Platform for DDUGKY and RSETI from the National Informatics Centre.
+
+        I understand that the biometrics and/or OTP I provide for authentication shall be used only for authenticating my identity through the Aadhaar authentication system for that specific transaction and for no other purposes.
+
+        I understand that the National Informatics Centre shall ensure the security and confidentiality of my personal identity data provided for the purpose of Aadhaar-based authentication.
+        """
+
     var body: some View {
 
-        ScrollView(showsIndicators: false) {
+        VStack(
+            spacing: 0
+        ) {
+
+            Spacer(
+                minLength: 10
+            )
 
             VStack(
-                spacing: 0
+                alignment: .leading,
+                spacing: 18
             ) {
 
-                Spacer()
-                    .frame(
-                        height: 20
+                // MARK: - Top Icon
+
+                Image(
+                    systemName: "checkmark.shield.fill"
+                )
+                .font(
+                    .system(
+                        size: 34
                     )
+                )
+                .foregroundStyle(
+                    Color.appDarkGreen
+                )
+
+
+                // MARK: - Title
+
+                Text(
+                    "Aadhaar Verification"
+                )
+                .font(
+                    .system(
+                        size: 26,
+                        weight: .bold
+                    )
+                )
+                .foregroundStyle(
+                    Color.appDarkGreen
+                )
+
+
+                // MARK: - Description
+
+                Text(
+                    "Enter your 12 digit Aadhaar number to verify your identity."
+                )
+                .font(
+                    .system(
+                        size: 14
+                    )
+                )
+                .foregroundStyle(
+                    Color.appTextSecondary
+                )
+
+
+                // MARK: - Aadhaar Input
 
                 VStack(
                     alignment: .leading,
-                    spacing: 20
+                    spacing: 8
                 ) {
 
-                    // MARK: - Icon
-
-                    Image(
-                        systemName: "checkmark.shield.fill"
+                    Text(
+                        "Aadhaar Number"
                     )
                     .font(
                         .system(
-                            size: 34
+                            size: 14,
+                            weight: .medium
                         )
                     )
                     .foregroundStyle(
                         Color.appDarkGreen
                     )
 
-                    // MARK: - Title
 
-                    Text(
-                        "Aadhaar Verification"
-                    )
-                    .font(
-                        .system(
-                            size: 26,
-                            weight: .bold
-                        )
-                    )
-                    .foregroundStyle(
-                        Color.appDarkGreen
-                    )
-
-                    // MARK: - Description
-
-                    Text(
-                        "Enter your 12 digit Aadhaar number to verify your identity."
-                    )
-                    .font(
-                        .system(
-                            size: 14
-                        )
-                    )
-                    .foregroundStyle(
-                        Color.appTextSecondary
-                    )
-
-                    Spacer()
-                        .frame(
-                            height: 8
-                        )
-
-                    // MARK: - Aadhaar Input
-
-                    VStack(
-                        alignment: .leading,
-                        spacing: 8
+                    HStack(
+                        spacing: 0
                     ) {
 
-                        Text(
-                            "Aadhaar Number"
+                        // MARK: Aadhaar Icon
+
+                        Image(
+                            systemName: "person.text.rectangle"
                         )
                         .font(
                             .system(
-                                size: 14,
+                                size: 20,
                                 weight: .medium
                             )
                         )
                         .foregroundStyle(
                             Color.appDarkGreen
                         )
+                        .frame(
+                            width: 56,
+                            height: 56
+                        )
+
+
+                        Rectangle()
+                            .fill(
+                                Color.appBorder
+                            )
+                            .frame(
+                                width: 1,
+                                height: 28
+                            )
+
 
                         TextField(
                             "Enter 12 digit Aadhaar number",
@@ -100,166 +146,130 @@ struct AadhaarStepView: View {
                         .textContentType(
                             .oneTimeCode
                         )
+                        .focused(
+                            $isAadhaarFieldFocused
+                        )
                         .font(
                             .system(
                                 size: 16,
                                 weight: .medium
                             )
                         )
+                        .foregroundStyle(
+                            Color.appTextPrimary
+                        )
                         .padding(
                             .horizontal,
                             16
                         )
-                        .frame(
-                            height: 56
+                    }
+                    .frame(
+                        height: 56
+                    )
+                    .background(
+                        Color.appCard
+                    )
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: 14
                         )
-                        .background(
-                            Color.appCard
+                    )
+                    .overlay {
+
+                        RoundedRectangle(
+                            cornerRadius: 14
                         )
-                        .clipShape(
-                            RoundedRectangle(
-                                cornerRadius: 14
-                            )
+                        .stroke(
+                            aadhaarBorderColor,
+                            lineWidth: 1
                         )
-                        .overlay {
-
-                            RoundedRectangle(
-                                cornerRadius: 14
-                            )
-                            .stroke(
-                                aadhaarBorderColor,
-                                lineWidth: 1
-                            )
-                        }
-
-                        if !viewModel
-                            .aadhaarValidationMessage
-                            .isEmpty {
-
-                            HStack(
-                                spacing: 6
-                            ) {
-
-                                Image(
-                                    systemName:
-                                        viewModel.isAadhaarValid
-                                        ? "checkmark.circle.fill"
-                                        : "xmark.circle.fill"
-                                )
-
-                                Text(
-                                    viewModel
-                                        .aadhaarValidationMessage
-                                )
-
-                                Spacer()
-                            }
-                            .font(
-                                .system(
-                                    size: 13,
-                                    weight: .medium
-                                )
-                            )
-                            .foregroundStyle(
-                                viewModel.isAadhaarValid
-                                ? Color.green
-                                : Color.red
-                            )
-                        }
                     }
 
-                    Spacer()
-                        .frame(
-                            height: 8
-                        )
 
-                    // MARK: - Consent
+                    // MARK: - Validation Message
 
-                    Button {
-
-                        viewModel
-                            .isConsentAccepted
-                            .toggle()
-
-                    } label: {
+                    if !viewModel.aadhaarValidationMessage.isEmpty {
 
                         HStack(
-                            alignment: .top,
-                            spacing: 12
+                            spacing: 6
                         ) {
 
                             Image(
                                 systemName:
-                                    viewModel.isConsentAccepted
-                                    ? "checkmark.square.fill"
-                                    : "square"
-                            )
-                            .font(
-                                .system(
-                                    size: 24
-                                )
-                            )
-                            .foregroundStyle(
-                                viewModel.isConsentAccepted
-                                ? Color.appGreen
-                                : Color.appTextSecondary
+                                    viewModel.isAadhaarValid
+                                    ? "checkmark.circle.fill"
+                                    : "xmark.circle.fill"
                             )
 
                             Text(
-                                """
-                                I hereby consent to authenticate myself using Aadhaar based authentication for availing services on the Unified IT Platform for DDUGKY and RSETI.
-                                """
+                                viewModel.aadhaarValidationMessage
                             )
-                            .font(
-                                .system(
-                                    size: 13
-                                )
-                            )
-                            .foregroundStyle(
-                                Color.appTextSecondary
-                            )
-                            .multilineTextAlignment(
-                                .leading
-                            )
-                            .lineSpacing(
-                                3
-                            )
+
+                            Spacer()
                         }
+                        .font(
+                            .system(
+                                size: 13,
+                                weight: .medium
+                            )
+                        )
+                        .foregroundStyle(
+                            viewModel.isAadhaarValid
+                            ? Color.green
+                            : Color.red
+                        )
+                    }
+                }
+
+
+                // MARK: - Consent
+
+                HStack(
+                    alignment: .top,
+                    spacing: 12
+                ) {
+
+                    // MARK: Checkbox
+
+                    Button {
+
+                        viewModel.isConsentAccepted.toggle()
+
+                    } label: {
+
+                        Image(
+                            systemName:
+                                viewModel.isConsentAccepted
+                                ? "checkmark.square.fill"
+                                : "square"
+                        )
+                        .font(
+                            .system(
+                                size: 24
+                            )
+                        )
+                        .foregroundStyle(
+                            viewModel.isConsentAccepted
+                            ? Color.appGreen
+                            : Color.appTextSecondary
+                        )
                     }
                     .buttonStyle(
                         .plain
                     )
 
-                    Spacer()
-                        .frame(
-                            height: 8
-                        )
 
-                    // MARK: - Verify Button
+                    // MARK: Consent Text
 
-                    AppButton(
-                        title: "VERIFY AADHAAR",
-                        icon: "checkmark.shield.fill",
-                        action: {
-
-                            hideKeyboard()
-
-                            viewModel
-                                .verifyAadhaar()
-                        },
-                        isLoading:
-                            viewModel.isLoading,
-                        isDisabled:
-                            !viewModel.isAadhaarValid ||
-                            !viewModel.isConsentAccepted
-                    )
-
-                    // MARK: - Error
-
-                    if !viewModel.errorMessage.isEmpty {
+                    VStack(
+                        alignment: .leading,
+                        spacing: 6
+                    ) {
 
                         Text(
-                            viewModel.errorMessage
+                            isConsentExpanded
+                            ? fullConsentText
+                            : shortConsentText
                         )
                         .font(
                             .system(
@@ -267,49 +277,155 @@ struct AadhaarStepView: View {
                             )
                         )
                         .foregroundStyle(
-                            Color.red
+                            Color.appTextSecondary
+                        )
+                        .multilineTextAlignment(
+                            .leading
+                        )
+                        .lineSpacing(
+                            3
+                        )
+
+
+                        Button {
+
+                            withAnimation(
+                                .easeInOut(
+                                    duration: 0.25
+                                )
+                            ) {
+
+                                isConsentExpanded.toggle()
+                            }
+
+                        } label: {
+
+                            Text(
+                                isConsentExpanded
+                                ? "Read Less"
+                                : "Read More"
+                            )
+                            .font(
+                                .system(
+                                    size: 13,
+                                    weight: .semibold
+                                )
+                            )
+                            .foregroundStyle(
+                                Color.appDarkGreen
+                            )
+                        }
+                        .buttonStyle(
+                            .plain
                         )
                     }
                 }
-                .padding(
-                    20
-                )
-                .frame(
-                    maxWidth: .infinity,
-                    alignment: .leading
-                )
-                .background(
-                    Color.appCard
-                )
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: 20
-                    )
-                )
-                .overlay {
 
-                    RoundedRectangle(
-                        cornerRadius: 20
+
+                // MARK: - Verify Button
+
+                AppButton(
+                    title: "VERIFY AADHAAR",
+                    icon: "checkmark.shield.fill",
+                    action: {
+
+                        hideKeyboard()
+
+                        viewModel.verifyAadhaar()
+                    },
+                    isLoading: viewModel.isLoading,
+                    isDisabled:
+                        !viewModel.isAadhaarValid ||
+                        !viewModel.isConsentAccepted
+                )
+
+
+                // MARK: - Error
+
+                if !viewModel.errorMessage.isEmpty {
+
+                    Text(
+                        viewModel.errorMessage
                     )
-                    .stroke(
-                        Color.appBorder,
-                        lineWidth: 1
+                    .font(
+                        .system(
+                            size: 13
+                        )
+                    )
+                    .foregroundStyle(
+                        Color.red
                     )
                 }
+            }
+            .padding(
+                20
+            )
+            .frame(
+                maxWidth: .infinity,
+                alignment: .leading
+            )
+            .background(
+                Color.appCard
+            )
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: 20
+                )
+            )
+            .overlay {
 
-                Spacer(
-                    minLength: 30
+                RoundedRectangle(
+                    cornerRadius: 20
+                )
+                .stroke(
+                    Color.appBorder,
+                    lineWidth: 1
                 )
             }
             .padding(
                 .horizontal,
                 20
             )
+
+            Spacer(
+                minLength: 10
+            )
         }
-        .scrollDismissesKeyboard(
-            .interactively
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity
         )
+        .contentShape(
+            Rectangle()
+        )
+        .onTapGesture {
+
+            hideKeyboard()
+        }
+        .toolbar {
+
+            ToolbarItemGroup(
+                placement: .keyboard
+            ) {
+
+                Spacer()
+
+                Button(
+                    "DONE"
+                ) {
+
+                    hideKeyboard()
+                }
+                .fontWeight(
+                    .semibold
+                )
+                .foregroundStyle(
+                    Color.appDarkGreen
+                )
+            }
+        }
     }
+
 
     // MARK: - Aadhaar Binding
 
@@ -326,6 +442,7 @@ struct AadhaarStepView: View {
 
                 let numbers =
                     newValue.filter {
+
                         $0.isNumber
                     }
 
@@ -338,6 +455,7 @@ struct AadhaarStepView: View {
             }
         )
     }
+
 
     // MARK: - Aadhaar Border Color
 
@@ -358,20 +476,19 @@ struct AadhaarStepView: View {
             : Color.red
     }
 
+
     // MARK: - Hide Keyboard
 
     private func hideKeyboard() {
 
-        UIApplication.shared.sendAction(
+        isAadhaarFieldFocused = false
 
+        UIApplication.shared.sendAction(
             #selector(
                 UIResponder.resignFirstResponder
             ),
-
             to: nil,
-
             from: nil,
-
             for: nil
         )
     }

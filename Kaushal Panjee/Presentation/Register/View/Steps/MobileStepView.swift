@@ -6,12 +6,12 @@ struct MobileStepView: View {
 
     @FocusState private var isMobileFieldFocused: Bool
 
+
     var body: some View {
 
-        VStack(spacing: 0) {
-
-            Spacer()
-                .frame(height: 10)
+        VStack(
+            spacing: 0
+        ) {
 
             // MARK: - Phone Icon
 
@@ -25,6 +25,10 @@ struct MobileStepView: View {
             )
             .foregroundStyle(
                 Color.appDarkGreen
+            )
+            .padding(
+                .top,
+                30
             )
 
 
@@ -55,15 +59,11 @@ struct MobileStepView: View {
             )
             .font(
                 .system(
-                    size: 15,
-                    weight: .regular
+                    size: 15
                 )
             )
             .foregroundStyle(
                 Color.appTextSecondary
-            )
-            .multilineTextAlignment(
-                .center
             )
             .padding(
                 .top,
@@ -132,15 +132,18 @@ struct MobileStepView: View {
                     of: viewModel.mobileNumber
                 ) { _, newValue in
 
-                    let numbers = newValue.filter {
-                        $0.isNumber
-                    }
+                    let numbers =
+                        newValue.filter {
+                            $0.isNumber
+                        }
 
-                    let limitedNumber = String(
-                        numbers.prefix(10)
-                    )
+                    let limitedNumber =
+                        String(
+                            numbers.prefix(10)
+                        )
 
-                    if limitedNumber != viewModel.mobileNumber {
+                    if limitedNumber !=
+                        viewModel.mobileNumber {
 
                         viewModel.mobileNumber =
                             limitedNumber
@@ -201,12 +204,13 @@ struct MobileStepView: View {
             }
 
 
-            // MARK: - Send OTP Button
+            // MARK: - Send OTP
 
             AppButton(
                 title: "SEND OTP",
                 icon: "arrow.right",
                 action: {
+
                     submitMobile()
                 },
                 isLoading: viewModel.isLoading,
@@ -219,7 +223,7 @@ struct MobileStepView: View {
             )
 
 
-            // MARK: - Security Text
+            // MARK: - Security
 
             HStack(
                 spacing: 6
@@ -260,19 +264,13 @@ struct MobileStepView: View {
             maxHeight: .infinity,
             alignment: .top
         )
-
-        // MARK: - Tap Outside
-
         .contentShape(
             Rectangle()
         )
         .onTapGesture {
+
             hideKeyboard()
         }
-
-
-        // MARK: - Keyboard Toolbar
-
         .toolbar {
 
             ToolbarItemGroup(
@@ -284,6 +282,7 @@ struct MobileStepView: View {
                 Button(
                     "SUBMIT"
                 ) {
+
                     submitMobile()
                 }
                 .fontWeight(
@@ -308,6 +307,7 @@ struct MobileStepView: View {
         guard
             viewModel.mobileNumber.count == 10
         else {
+
             return
         }
 

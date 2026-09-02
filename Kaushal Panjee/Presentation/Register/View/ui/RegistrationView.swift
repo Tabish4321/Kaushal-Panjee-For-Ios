@@ -2,8 +2,7 @@ import SwiftUI
 
 struct RegistrationView: View {
 
-    @Environment(\.dismiss)
-    private var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     @StateObject private var viewModel =
         RegistrationViewModel(
@@ -20,7 +19,6 @@ struct RegistrationView: View {
 
                 Color.appBackground
                     .ignoresSafeArea()
-
 
                 // MARK: - Rural Footer Image
 
@@ -40,12 +38,9 @@ struct RegistrationView: View {
                 }
                 .ignoresSafeArea()
 
-
                 // MARK: - Main Content
 
-                VStack(
-                    spacing: 0
-                ) {
+                VStack(spacing: 0) {
 
                     // MARK: - Header
 
@@ -57,17 +52,12 @@ struct RegistrationView: View {
                         }
                     )
 
-
                     // MARK: - Step Indicator
 
                     RegistrationStepIndicator(
                         currentStep: currentStepNumber
                     )
-                    .padding(
-                        .top,
-                        geometry.safeAreaInsets.top + 12
-                    )
-
+                    .padding(.top, -5)
 
                     // MARK: - Step Content
 
@@ -118,19 +108,17 @@ struct RegistrationView: View {
                             )
                         }
                     }
+                    .padding(.top, 18)
                     .frame(
                         maxWidth: .infinity,
-                        maxHeight: .infinity
+                        maxHeight: .infinity,
+                        alignment: .top
                     )
-
 
                     // MARK: - Common Footer
 
                     AppFooterView()
-                        .padding(
-                            .horizontal,
-                            20
-                        )
+                        .padding(.horizontal, 20)
                         .padding(
                             .bottom,
                             max(
@@ -144,29 +132,69 @@ struct RegistrationView: View {
                     height: geometry.size.height
                 )
             }
-
-            // IMPORTANT:
-            // Keyboard open hone par pura ZStack resize nahi hoga
-
             .ignoresSafeArea(
                 .keyboard,
                 edges: .bottom
             )
         }
+
         .background(
             Color.appBackground
         )
+
+        .ignoresSafeArea(
+            .keyboard,
+            edges: .bottom
+        )
+
+        // MARK: - Step Animation
+
         .animation(
-            .easeInOut(
-                duration: 0.25
-            ),
+            .easeInOut(duration: 0.25),
             value: viewModel.step
         )
-        .navigationBarBackButtonHidden(
-            true
+
+        .navigationBarBackButtonHidden(true)
+
+        // MARK: - eKYC Success Popup
+
+        .overlay {
+
+            if viewModel.showEkycSuccessDialog {
+
+                EkycSuccessDialog(
+                    photoBase64: viewModel.aadhaarPhoto,
+                    name: viewModel.aadhaarName,
+                    fatherName: viewModel.aadhaarFatherName,
+                    dob: viewModel.aadhaarDOB
+                ) {
+
+                    withAnimation(
+                        .easeInOut(duration: 0.2)
+                    ) {
+
+                        viewModel.showEkycSuccessDialog = false
+                    }
+                }
+                .transition(
+                    .opacity
+                        .combined(
+                            with: .scale(
+                                scale: 0.95
+                            )
+                        )
+                )
+                .zIndex(999)
+            }
+        }
+
+        // MARK: - Popup Animation
+
+        .animation(
+            .easeInOut(duration: 0.2),
+            value: viewModel.showEkycSuccessDialog
         )
     }
-
 
     // MARK: - Back Navigation
 
@@ -174,28 +202,20 @@ struct RegistrationView: View {
 
         switch viewModel.step {
 
-        // First Step → Login
-
         case .email:
 
             dismiss()
 
-
-        // Other Steps → Previous Step
-
         default:
 
             withAnimation(
-                .easeInOut(
-                    duration: 0.25
-                )
+                .easeInOut(duration: 0.25)
             ) {
 
                 viewModel.goBack()
             }
         }
     }
-
 
     // MARK: - Current Step Number
 
@@ -204,31 +224,24 @@ struct RegistrationView: View {
         switch viewModel.step {
 
         case .email:
-
             return 1
 
         case .emailOTP:
-
             return 2
 
         case .mobile:
-
             return 3
 
         case .mobileOTP:
-
             return 4
 
         case .selectState:
-
             return 5
 
         case .aadhaar:
-
             return 6
 
         case .registrationComplete:
-
             return 6
         }
     }

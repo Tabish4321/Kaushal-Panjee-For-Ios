@@ -1,5 +1,5 @@
 import SwiftUI
-import UIKit
+internal import UIKit
 
 // ============================================================
 // MARK: - App Colors

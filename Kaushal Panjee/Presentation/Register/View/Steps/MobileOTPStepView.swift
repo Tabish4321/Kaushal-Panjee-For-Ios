@@ -6,13 +6,12 @@ struct MobileOTPStepView: View {
 
     @FocusState private var otpFieldFocused: Bool
 
+
     var body: some View {
 
         VStack(
             spacing: 0
         ) {
-
-            Spacer()
 
             // MARK: - Mobile OTP Icon
 
@@ -27,6 +26,11 @@ struct MobileOTPStepView: View {
             .foregroundStyle(
                 Color.appDarkGreen
             )
+            .padding(
+                .top,
+                30
+            )
+
 
             // MARK: - Title
 
@@ -47,6 +51,7 @@ struct MobileOTPStepView: View {
                 20
             )
 
+
             // MARK: - Subtitle
 
             Text(
@@ -54,20 +59,17 @@ struct MobileOTPStepView: View {
             )
             .font(
                 .system(
-                    size: 15,
-                    weight: .regular
+                    size: 15
                 )
             )
             .foregroundStyle(
                 Color.appTextSecondary
             )
-            .multilineTextAlignment(
-                .center
-            )
             .padding(
                 .top,
                 8
             )
+
 
             // MARK: - Mobile Number
 
@@ -88,6 +90,7 @@ struct MobileOTPStepView: View {
                 4
             )
 
+
             // MARK: - OTP Input
 
             OTPInputView(
@@ -98,10 +101,7 @@ struct MobileOTPStepView: View {
                 .top,
                 36
             )
-            .padding(
-                .top,
-                36
-            )
+
 
             // MARK: - OTP Hint
 
@@ -120,6 +120,7 @@ struct MobileOTPStepView: View {
                 .top,
                 12
             )
+
 
             // MARK: - Error
 
@@ -144,8 +145,8 @@ struct MobileOTPStepView: View {
                     .top,
                     12
                 )
-
             }
+
 
             // MARK: - Verify Button
 
@@ -155,15 +156,16 @@ struct MobileOTPStepView: View {
                 action: {
 
                     verifyMobileOTP()
-
                 },
                 isLoading: viewModel.isLoading,
-                isDisabled: viewModel.otp.count != 4
+                isDisabled:
+                    viewModel.otp.count != 4
             )
             .padding(
                 .top,
                 28
             )
+
 
             // MARK: - Resend OTP
 
@@ -176,7 +178,6 @@ struct MobileOTPStepView: View {
                 ) {
 
                     otpFieldFocused = true
-
                 }
 
             } label: {
@@ -188,28 +189,20 @@ struct MobileOTPStepView: View {
                     Image(
                         systemName: "arrow.clockwise"
                     )
-                    .font(
-                        .system(
-                            size: 14,
-                            weight: .medium
-                        )
-                    )
 
                     Text(
                         "Resend OTP"
                     )
-                    .font(
-                        .system(
-                            size: 14,
-                            weight: .semibold
-                        )
-                    )
-
                 }
+                .font(
+                    .system(
+                        size: 14,
+                        weight: .semibold
+                    )
+                )
                 .foregroundStyle(
                     Color.appDarkGreen
                 )
-
             }
             .buttonStyle(
                 .plain
@@ -222,7 +215,8 @@ struct MobileOTPStepView: View {
                 22
             )
 
-            // MARK: - Security Text
+
+            // MARK: - Security
 
             HStack(
                 spacing: 6
@@ -235,7 +229,6 @@ struct MobileOTPStepView: View {
                 Text(
                     "Your verification is secure with us"
                 )
-
             }
             .font(
                 .system(
@@ -250,18 +243,19 @@ struct MobileOTPStepView: View {
                 20
             )
 
+
             Spacer(
                 minLength: 20
             )
-
         }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity
-        )
         .padding(
             .horizontal,
             24
+        )
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .top
         )
         .contentShape(
             Rectangle()
@@ -269,7 +263,6 @@ struct MobileOTPStepView: View {
         .onTapGesture {
 
             hideKeyboard()
-
         }
         .onAppear {
 
@@ -278,9 +271,7 @@ struct MobileOTPStepView: View {
             ) {
 
                 otpFieldFocused = true
-
             }
-
         }
         .toolbar {
 
@@ -295,7 +286,6 @@ struct MobileOTPStepView: View {
                 ) {
 
                     verifyMobileOTP()
-
                 }
                 .fontWeight(
                     .semibold
@@ -307,28 +297,25 @@ struct MobileOTPStepView: View {
                     viewModel.otp.count != 4 ||
                     viewModel.isLoading
                 )
-
             }
-
         }
-
     }
 
-    // MARK: - Verify Mobile OTP
 
     private func verifyMobileOTP() {
 
-        guard viewModel.otp.count == 4 else {
+        guard
+            viewModel.otp.count == 4
+        else {
+
             return
         }
 
         hideKeyboard()
 
         viewModel.verifyMobileOTP()
-
     }
 
-    // MARK: - Hide Keyboard
 
     private func hideKeyboard() {
 
@@ -342,7 +329,5 @@ struct MobileOTPStepView: View {
             from: nil,
             for: nil
         )
-
     }
-
 }

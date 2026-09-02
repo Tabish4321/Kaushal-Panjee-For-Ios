@@ -3,7 +3,20 @@ import CommonCrypto
 
 enum AESUtil {
 
+    // MARK: - Configuration
+
     private static let enableEncryption = true
+
+    // IMPORTANT:
+    // Android mein formatKey() first 16 bytes leta hai.
+    // Isliye iOS mein bhi exactly same behavior rakha gaya hai.
+
+    static let cryptId =
+        "$10A80$10A80$10A80$10A80$10A80$10A80$10A80$10A80"
+
+    static let cryptIV =
+        "$10A80$10A80$10A80$10A80$10A80$10A80$10A80$10A80"
+
 
     // MARK: - Encrypt → Base64
 
@@ -17,26 +30,102 @@ enum AESUtil {
             return inputText
         }
 
-        do {
-            let keyBytes = formatKey(secretKey)
-            let ivBytes = formatIV(ivKey)
+        // Android:
+        //
+        // val keyBytes = formatKey(secretKey)
+        // val ivBytes = formatIV(ivKey)
 
-            let inputData = Data(inputText.utf8)
+        let keyBytes = formatKey(secretKey)
+        let ivBytes = formatIV(ivKey)
 
-            let encryptedData = try crypt(
-                data: inputData,
-                key: keyBytes,
-                iv: ivBytes,
-                operation: CCOperation(kCCEncrypt)
+        let inputData = Data(
+            inputText.utf8
+        )
+
+        let bufferSize =
+            inputData.count + kCCBlockSizeAES128
+
+        var encryptedBytes = [UInt8](
+            repeating: 0,
+            count: bufferSize
+        )
+
+        var encryptedLength = 0
+
+        let status: CCCryptorStatus =
+            inputData.withUnsafeBytes { inputBuffer in
+
+                encryptedBytes.withUnsafeMutableBytes { outputBuffer in
+
+                    keyBytes.withUnsafeBytes { keyBuffer in
+
+                        ivBytes.withUnsafeBytes { ivBuffer in
+
+                            CCCrypt(
+                                CCOperation(kCCEncrypt),
+
+                                // AES
+                                CCAlgorithm(kCCAlgorithmAES),
+
+                                // Android:
+                                // AES/CBC/PKCS5PADDING
+                                //
+                                // CommonCrypto:
+                                // PKCS7Padding
+                                //
+                                // AES block size = 16,
+                                // so behavior is compatible.
+                                CCOptions(kCCOptionPKCS7Padding),
+
+                                keyBuffer.baseAddress,
+                                keyBytes.count,
+
+                                ivBuffer.baseAddress,
+
+                                inputBuffer.baseAddress,
+                                inputData.count,
+
+                                outputBuffer.baseAddress,
+                                bufferSize,
+
+                                &encryptedLength
+                            )
+                        }
+                    }
+                }
+            }
+
+        guard status == kCCSuccess else {
+
+            print(
+                "AES encryption failed. Status: \(status)"
             )
 
-            return encryptedData.base64EncodedString()
-
-        } catch {
-            print("AES encryption failed: \(error)")
             return ""
         }
+
+        let encryptedData = Data(
+            bytes: encryptedBytes,
+            count: encryptedLength
+        )
+
+        // Android:
+        //
+        // Base64.encodeToString(
+        //     encryptedBytes,
+        //     Base64.DEFAULT
+        // ).trim()
+        //
+        // iOS Base64 does not add newline by default,
+        // so this is equivalent.
+
+        return encryptedData
+            .base64EncodedString()
+            .trimmingCharacters(
+                in: .whitespacesAndNewlines
+            )
     }
+
 
     // MARK: - Decrypt Base64 → String
 
@@ -46,35 +135,89 @@ enum AESUtil {
         ivKey: String
     ) -> String {
 
-        do {
-            let keyBytes = formatKey(secretKey)
-            let ivBytes = formatIV(ivKey)
+        let keyBytes = formatKey(secretKey)
+        let ivBytes = formatIV(ivKey)
 
-            guard let encryptedData = Data(
-                base64Encoded: inputText
-            ) else {
-                return ""
-            }
-
-            let decryptedData = try crypt(
-                data: encryptedData,
-                key: keyBytes,
-                iv: ivBytes,
-                operation: CCOperation(kCCDecrypt)
+        guard let encryptedData =
+            Data(
+                base64Encoded: inputText,
+                options: [
+                    .ignoreUnknownCharacters
+                ]
             )
+        else {
 
-            return String(
-                data: decryptedData,
-                encoding: .utf8
-            ) ?? ""
+            print("AES: Invalid Base64")
 
-        } catch {
-            print("AES decryption failed: \(error)")
             return ""
         }
+
+        let bufferSize =
+            encryptedData.count + kCCBlockSizeAES128
+
+        var decryptedBytes = [UInt8](
+            repeating: 0,
+            count: bufferSize
+        )
+
+        var decryptedLength = 0
+
+        let status: CCCryptorStatus =
+            encryptedData.withUnsafeBytes { inputBuffer in
+
+                decryptedBytes.withUnsafeMutableBytes { outputBuffer in
+
+                    keyBytes.withUnsafeBytes { keyBuffer in
+
+                        ivBytes.withUnsafeBytes { ivBuffer in
+
+                            CCCrypt(
+                                CCOperation(kCCDecrypt),
+
+                                CCAlgorithm(kCCAlgorithmAES),
+
+                                CCOptions(kCCOptionPKCS7Padding),
+
+                                keyBuffer.baseAddress,
+                                keyBytes.count,
+
+                                ivBuffer.baseAddress,
+
+                                inputBuffer.baseAddress,
+                                encryptedData.count,
+
+                                outputBuffer.baseAddress,
+                                bufferSize,
+
+                                &decryptedLength
+                            )
+                        }
+                    }
+                }
+            }
+
+        guard status == kCCSuccess else {
+
+            print(
+                "AES decryption failed. Status: \(status)"
+            )
+
+            return ""
+        }
+
+        let decryptedData = Data(
+            bytes: decryptedBytes,
+            count: decryptedLength
+        )
+
+        return String(
+            data: decryptedData,
+            encoding: .utf8
+        ) ?? ""
     }
 
-    // MARK: - Decrypt Hex → String
+
+    // MARK: - AES Hex Decrypt
 
     static func aesDecrypt(
         encryptedText: String,
@@ -82,139 +225,153 @@ enum AESUtil {
         ivKey: String
     ) -> String {
 
-        do {
-            let keyBytes = formatKey(secretKey)
-            let ivBytes = formatIV(ivKey)
+        let keyBytes = formatKey(secretKey)
+        let ivBytes = formatIV(ivKey)
 
-            guard let encryptedData = hexStringToData(
+        guard let encryptedData =
+            hexStringToData(
                 encryptedText
-            ) else {
-                return ""
-            }
-
-            let decryptedData = try crypt(
-                data: encryptedData,
-                key: keyBytes,
-                iv: ivBytes,
-                operation: CCOperation(kCCDecrypt)
             )
+        else {
 
-            return String(
-                data: decryptedData,
-                encoding: .utf8
-            ) ?? ""
+            print("AES: Invalid hex string")
 
-        } catch {
-            print("AES hex decryption failed: \(error)")
             return ""
         }
-    }
 
-    // MARK: - AES Operation
+        let bufferSize =
+            encryptedData.count + kCCBlockSizeAES128
 
-    private static func crypt(
-        data: Data,
-        key: [UInt8],
-        iv: [UInt8],
-        operation: CCOperation
-    ) throws -> Data {
-
-        let outputSize =
-            data.count + kCCBlockSizeAES128
-
-        var output = [UInt8](
+        var decryptedBytes = [UInt8](
             repeating: 0,
-            count: outputSize
+            count: bufferSize
         )
 
-        var outputLength = 0
+        var decryptedLength = 0
 
-        let status: CCCryptorStatus = data.withUnsafeBytes { dataBuffer in
+        let status: CCCryptorStatus =
+            encryptedData.withUnsafeBytes { inputBuffer in
 
-            output.withUnsafeMutableBytes { outputBuffer in
+                decryptedBytes.withUnsafeMutableBytes { outputBuffer in
 
-                key.withUnsafeBytes { keyBuffer in
+                    keyBytes.withUnsafeBytes { keyBuffer in
 
-                    iv.withUnsafeBytes { ivBuffer in
+                        ivBytes.withUnsafeBytes { ivBuffer in
 
-                        CCCrypt(
-                            operation,
-                            CCAlgorithm(kCCAlgorithmAES),
-                            CCOptions(kCCOptionPKCS7Padding),
-                            keyBuffer.baseAddress,
-                            key.count,
-                            ivBuffer.baseAddress,
-                            dataBuffer.baseAddress,
-                            data.count,
-                            outputBuffer.baseAddress,
-                            outputSize,
-                            &outputLength
-                        )
+                            CCCrypt(
+                                CCOperation(kCCDecrypt),
+
+                                CCAlgorithm(kCCAlgorithmAES),
+
+                                CCOptions(kCCOptionPKCS7Padding),
+
+                                keyBuffer.baseAddress,
+                                keyBytes.count,
+
+                                ivBuffer.baseAddress,
+
+                                inputBuffer.baseAddress,
+                                encryptedData.count,
+
+                                outputBuffer.baseAddress,
+                                bufferSize,
+
+                                &decryptedLength
+                            )
+                        }
                     }
                 }
             }
-        }
 
         guard status == kCCSuccess else {
-            throw NSError(
-                domain: "AESUtil",
-                code: Int(status),
-                userInfo: [
-                    NSLocalizedDescriptionKey:
-                        "AES operation failed with status: \(status)"
-                ]
+
+            print(
+                "AES hex decryption failed. Status: \(status)"
             )
+
+            return ""
         }
 
-        return Data(
-            bytes: output,
-            count: outputLength
+        let decryptedData = Data(
+            bytes: decryptedBytes,
+            count: decryptedLength
         )
+
+        return String(
+            data: decryptedData,
+            encoding: .utf8
+        ) ?? ""
     }
 
-    // MARK: - Key Formatter
+
+    // MARK: - Android Compatible Key Formatter
 
     private static func formatKey(
         _ key: String
     ) -> [UInt8] {
 
-        let bytes = Array(key.utf8)
+        let keyBytes = Array(
+            key.utf8
+        )
 
-        if bytes.count == 16 {
-            return bytes
+        // Android:
+        //
+        // if (keyBytes.size == 16)
+        //     return keyBytes
+        //
+        // if (keyBytes.size < 16)
+        //     return keyBytes.copyOf(16)
+        //
+        // else
+        //     return keyBytes.copyOf(16)
+
+        if keyBytes.count == 16 {
+            return keyBytes
         }
 
-        if bytes.count < 16 {
-            return bytes + Array(
+        if keyBytes.count < 16 {
+
+            return keyBytes + Array(
                 repeating: UInt8(0),
-                count: 16 - bytes.count
+                count: 16 - keyBytes.count
             )
         }
 
-        return Array(bytes.prefix(16))
+        return Array(
+            keyBytes.prefix(16)
+        )
     }
 
-    // MARK: - IV Formatter
+
+    // MARK: - Android Compatible IV Formatter
 
     private static func formatIV(
         _ iv: String
     ) -> [UInt8] {
 
-        let bytes = Array(iv.utf8)
+        let ivBytes = Array(
+            iv.utf8
+        )
 
-        if bytes.count == 16 {
-            return bytes
+        // IV must be exactly 16 bytes.
+
+        if ivBytes.count == 16 {
+            return ivBytes
         }
 
-        if bytes.count < 16 {
-            return bytes + Array(
+        if ivBytes.count < 16 {
+
+            return ivBytes + Array(
                 repeating: UInt8(0),
-                count: 16 - bytes.count
+                count: 16 - ivBytes.count
             )
         }
 
-        return Array(bytes.prefix(16))
+        return Array(
+            ivBytes.prefix(16)
+        )
     }
+
 
     // MARK: - Hex → Data
 
@@ -245,6 +402,7 @@ enum AESUtil {
                 byteString,
                 radix: 16
             ) else {
+
                 return nil
             }
 

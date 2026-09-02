@@ -23,4 +23,7 @@ enum APIConstants {
     
     
     static let stateOtpList =   apiBackend + apiCitizen + "stateOTPVerifiedList"
+    
+    
+    static let checkUserExistance =   apiBackend + apiCitizen + "checkUserExistance"
 }

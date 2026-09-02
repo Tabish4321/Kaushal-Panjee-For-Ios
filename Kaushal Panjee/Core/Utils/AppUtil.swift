@@ -1,5 +1,5 @@
 import Foundation
-import UIKit
+internal import UIKit
 
 enum AppUtil {
 

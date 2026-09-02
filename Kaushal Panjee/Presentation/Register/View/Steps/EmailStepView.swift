@@ -6,9 +6,11 @@ struct EmailStepView: View {
 
     var body: some View {
 
-        VStack(spacing: 0) {
+        VStack(
+            spacing: 0
+        ) {
 
-            Spacer()
+            // MARK: - Email Icon
 
             Image(
                 systemName: "envelope.fill"
@@ -21,6 +23,13 @@ struct EmailStepView: View {
             .foregroundStyle(
                 Color.appDarkGreen
             )
+            .padding(
+                .top,
+                30
+            )
+
+
+            // MARK: - Title
 
             Text(
                 "Verify your email"
@@ -38,6 +47,9 @@ struct EmailStepView: View {
                 .top,
                 20
             )
+
+
+            // MARK: - Subtitle
 
             Text(
                 "Enter your email address to continue"
@@ -58,6 +70,9 @@ struct EmailStepView: View {
                 8
             )
 
+
+            // MARK: - Email Input
+
             AppTextField(
                 title: "Email Address",
                 placeholder: "Enter your email address",
@@ -67,6 +82,7 @@ struct EmailStepView: View {
                 submitLabel: .done,
                 submitButtonTitle: "Done",
                 onSubmit: {
+
                     hideKeyboard()
 
                     if !viewModel.email
@@ -83,6 +99,9 @@ struct EmailStepView: View {
                 .top,
                 36
             )
+
+
+            // MARK: - Error
 
             if !viewModel.errorMessage.isEmpty {
 
@@ -108,6 +127,9 @@ struct EmailStepView: View {
                 )
             }
 
+
+            // MARK: - Send OTP Button
+
             AppButton(
                 title: "SEND OTP",
                 icon: "arrow.right",
@@ -129,6 +151,9 @@ struct EmailStepView: View {
                 .top,
                 24
             )
+
+
+            // MARK: - Skip
 
             Button {
 
@@ -168,6 +193,7 @@ struct EmailStepView: View {
                 24
             )
 
+
             Text(
                 "You can verify your email later."
             )
@@ -184,13 +210,31 @@ struct EmailStepView: View {
                 8
             )
 
-            Spacer()
+
+            Spacer(
+                minLength: 20
+            )
         }
         .padding(
             .horizontal,
             24
         )
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .top
+        )
+        .contentShape(
+            Rectangle()
+        )
+        .onTapGesture {
+
+            hideKeyboard()
+        }
     }
+
+
+    // MARK: - Hide Keyboard
 
     private func hideKeyboard() {
 

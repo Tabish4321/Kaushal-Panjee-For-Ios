@@ -6,13 +6,12 @@ struct EmailOTPStepView: View {
 
     @FocusState private var otpFieldFocused: Bool
 
+
     var body: some View {
 
         VStack(
             spacing: 0
         ) {
-
-            Spacer()
 
             // MARK: - Email OTP Icon
 
@@ -27,6 +26,11 @@ struct EmailOTPStepView: View {
             .foregroundStyle(
                 Color.appDarkGreen
             )
+            .padding(
+                .top,
+                30
+            )
+
 
             // MARK: - Title
 
@@ -47,6 +51,7 @@ struct EmailOTPStepView: View {
                 20
             )
 
+
             // MARK: - Subtitle
 
             Text(
@@ -54,20 +59,17 @@ struct EmailOTPStepView: View {
             )
             .font(
                 .system(
-                    size: 15,
-                    weight: .regular
+                    size: 15
                 )
             )
             .foregroundStyle(
                 Color.appTextSecondary
             )
-            .multilineTextAlignment(
-                .center
-            )
             .padding(
                 .top,
                 8
             )
+
 
             // MARK: - Email
 
@@ -83,13 +85,11 @@ struct EmailOTPStepView: View {
             .foregroundStyle(
                 Color.appDarkGreen
             )
-            .multilineTextAlignment(
-                .center
-            )
             .padding(
                 .top,
                 4
             )
+
 
             // MARK: - OTP Input
 
@@ -101,10 +101,7 @@ struct EmailOTPStepView: View {
                 .top,
                 36
             )
-            .padding(
-                .top,
-                36
-            )
+
 
             // MARK: - OTP Hint
 
@@ -123,6 +120,7 @@ struct EmailOTPStepView: View {
                 .top,
                 12
             )
+
 
             // MARK: - Error
 
@@ -147,8 +145,8 @@ struct EmailOTPStepView: View {
                     .top,
                     12
                 )
-
             }
+
 
             // MARK: - Verify Button
 
@@ -158,15 +156,16 @@ struct EmailOTPStepView: View {
                 action: {
 
                     verifyEmailOTP()
-
                 },
                 isLoading: viewModel.isLoading,
-                isDisabled: viewModel.otp.count != 4
+                isDisabled:
+                    viewModel.otp.count != 4
             )
             .padding(
                 .top,
                 28
             )
+
 
             // MARK: - Resend OTP
 
@@ -179,7 +178,6 @@ struct EmailOTPStepView: View {
                 ) {
 
                     otpFieldFocused = true
-
                 }
 
             } label: {
@@ -191,28 +189,20 @@ struct EmailOTPStepView: View {
                     Image(
                         systemName: "arrow.clockwise"
                     )
-                    .font(
-                        .system(
-                            size: 14,
-                            weight: .medium
-                        )
-                    )
 
                     Text(
                         "Resend OTP"
                     )
-                    .font(
-                        .system(
-                            size: 14,
-                            weight: .semibold
-                        )
-                    )
-
                 }
+                .font(
+                    .system(
+                        size: 14,
+                        weight: .semibold
+                    )
+                )
                 .foregroundStyle(
                     Color.appDarkGreen
                 )
-
             }
             .buttonStyle(
                 .plain
@@ -225,7 +215,8 @@ struct EmailOTPStepView: View {
                 22
             )
 
-            // MARK: - Security Text
+
+            // MARK: - Security
 
             HStack(
                 spacing: 6
@@ -238,7 +229,6 @@ struct EmailOTPStepView: View {
                 Text(
                     "Your verification is secure with us"
                 )
-
             }
             .font(
                 .system(
@@ -253,18 +243,19 @@ struct EmailOTPStepView: View {
                 20
             )
 
+
             Spacer(
                 minLength: 20
             )
-
         }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity
-        )
         .padding(
             .horizontal,
             24
+        )
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .top
         )
         .contentShape(
             Rectangle()
@@ -272,7 +263,6 @@ struct EmailOTPStepView: View {
         .onTapGesture {
 
             hideKeyboard()
-
         }
         .onAppear {
 
@@ -281,9 +271,7 @@ struct EmailOTPStepView: View {
             ) {
 
                 otpFieldFocused = true
-
             }
-
         }
         .toolbar {
 
@@ -298,7 +286,6 @@ struct EmailOTPStepView: View {
                 ) {
 
                     verifyEmailOTP()
-
                 }
                 .fontWeight(
                     .semibold
@@ -310,28 +297,25 @@ struct EmailOTPStepView: View {
                     viewModel.otp.count != 4 ||
                     viewModel.isLoading
                 )
-
             }
-
         }
-
     }
 
-    // MARK: - Verify Email OTP
 
     private func verifyEmailOTP() {
 
-        guard viewModel.otp.count == 4 else {
+        guard
+            viewModel.otp.count == 4
+        else {
+
             return
         }
 
         hideKeyboard()
 
         viewModel.verifyEmailOTP()
-
     }
 
-    // MARK: - Hide Keyboard
 
     private func hideKeyboard() {
 
@@ -345,7 +329,5 @@ struct EmailOTPStepView: View {
             from: nil,
             for: nil
         )
-
     }
-
 }

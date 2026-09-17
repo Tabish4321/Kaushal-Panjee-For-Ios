@@ -2,13 +2,13 @@ import SwiftUI
 
 struct AppText: View {
 
-    let text: LocalizedStringKey
+    let text: String
     let size: CGFloat
     let weight: Font.Weight
     let color: Color
 
     init(
-        _ text: LocalizedStringKey,
+        _ text: String,
         size: CGFloat = 14,
         weight: Font.Weight = .regular,
         color: Color = .primary

@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct AppFooterView: View {
+    
+    @EnvironmentObject
+    private var languageManager: LanguageManager
 
+    
     var body: some View {
 
         VStack(
@@ -11,8 +15,8 @@ struct AppFooterView: View {
             // MARK: - Security Banner
 
             AppSecurityBanner(
-                title: "login.secure.title",
-                subtitle: "login.secure.subtitle",
+                title: languageManager.localized("login.secure.title"),
+                subtitle: languageManager.localized("login.secure.subtitle"),
                 icon: "checkmark.shield.fill"
             )
 

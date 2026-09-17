@@ -3,18 +3,17 @@ import SwiftUI
 struct MobileOTPStepView: View {
 
     @ObservedObject var viewModel: RegistrationViewModel
-
     @FocusState private var otpFieldFocused: Bool
 
+    @EnvironmentObject
+    private var languageManager: LanguageManager
 
     var body: some View {
-
         VStack(
             spacing: 0
         ) {
 
             // MARK: - Mobile OTP Icon
-
             Image(
                 systemName: "lock.shield.fill"
             )
@@ -31,11 +30,11 @@ struct MobileOTPStepView: View {
                 30
             )
 
-
             // MARK: - Title
-
             Text(
-                "Verify your mobile"
+                verbatim: languageManager.localized(
+                    "registration.verify_mobile"
+                )
             )
             .font(
                 .system(
@@ -51,11 +50,11 @@ struct MobileOTPStepView: View {
                 20
             )
 
-
             // MARK: - Subtitle
-
             Text(
-                "Enter the verification code sent to"
+                verbatim: languageManager.localized(
+                    "registration.otp_sent_to"
+                )
             )
             .font(
                 .system(
@@ -70,11 +69,9 @@ struct MobileOTPStepView: View {
                 8
             )
 
-
             // MARK: - Mobile Number
-
             Text(
-                "+91 \(viewModel.mobileNumber)"
+                verbatim: "+91 \(viewModel.mobileNumber)"
             )
             .font(
                 .system(
@@ -90,9 +87,7 @@ struct MobileOTPStepView: View {
                 4
             )
 
-
             // MARK: - OTP Input
-
             OTPInputView(
                 otp: $viewModel.otp,
                 isFocused: $otpFieldFocused
@@ -102,11 +97,11 @@ struct MobileOTPStepView: View {
                 36
             )
 
-
             // MARK: - OTP Hint
-
             Text(
-                "Enter the 4 digit OTP"
+                verbatim: languageManager.localized(
+                    "registration.otp_4_digit"
+                )
             )
             .font(
                 .system(
@@ -121,13 +116,10 @@ struct MobileOTPStepView: View {
                 12
             )
 
-
             // MARK: - Error
-
             if !viewModel.errorMessage.isEmpty {
-
                 Text(
-                    viewModel.errorMessage
+                    verbatim: viewModel.errorMessage
                 )
                 .font(
                     .system(
@@ -147,14 +139,13 @@ struct MobileOTPStepView: View {
                 )
             }
 
-
             // MARK: - Verify Button
-
             AppButton(
-                title: "VERIFY & CONTINUE",
+                title: languageManager.localized(
+                    "registration.verify_continue"
+                ),
                 icon: "arrow.right",
                 action: {
-
                     verifyMobileOTP()
                 },
                 isLoading: viewModel.isLoading,
@@ -166,32 +157,27 @@ struct MobileOTPStepView: View {
                 28
             )
 
-
             // MARK: - Resend OTP
-
             Button {
-
                 viewModel.resendMobileOTP()
 
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + 0.5
                 ) {
-
                     otpFieldFocused = true
                 }
-
             } label: {
-
                 HStack(
                     spacing: 8
                 ) {
-
                     Image(
                         systemName: "arrow.clockwise"
                     )
 
                     Text(
-                        "Resend OTP"
+                        verbatim: languageManager.localized(
+                            "common.resend_otp"
+                        )
                     )
                 }
                 .font(
@@ -215,19 +201,18 @@ struct MobileOTPStepView: View {
                 22
             )
 
-
             // MARK: - Security
-
             HStack(
                 spacing: 6
             ) {
-
                 Image(
                     systemName: "lock.fill"
                 )
 
                 Text(
-                    "Your verification is secure with us"
+                    verbatim: languageManager.localized(
+                        "registration.verification_secure"
+                    )
                 )
             }
             .font(
@@ -242,7 +227,6 @@ struct MobileOTPStepView: View {
                 .top,
                 20
             )
-
 
             Spacer(
                 minLength: 20
@@ -261,30 +245,26 @@ struct MobileOTPStepView: View {
             Rectangle()
         )
         .onTapGesture {
-
             hideKeyboard()
         }
         .onAppear {
-
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + 0.4
             ) {
-
                 otpFieldFocused = true
             }
         }
         .toolbar {
-
             ToolbarItemGroup(
                 placement: .keyboard
             ) {
-
                 Spacer()
 
                 Button(
-                    "VERIFY"
+                    languageManager.localized(
+                        "common.verify"
+                    )
                 ) {
-
                     verifyMobileOTP()
                 }
                 .fontWeight(
@@ -301,22 +281,20 @@ struct MobileOTPStepView: View {
         }
     }
 
-
+    // MARK: - Verify Mobile OTP
     private func verifyMobileOTP() {
 
         guard
             viewModel.otp.count == 4
         else {
-
             return
         }
 
         hideKeyboard()
-
         viewModel.verifyMobileOTP()
     }
 
-
+    // MARK: - Hide Keyboard
     private func hideKeyboard() {
 
         otpFieldFocused = false

@@ -2,8 +2,8 @@ import Foundation
 
 enum APIConstants {
 
-    static let baseURL =  "https://kaushal.rural.gov.in/backend/"      //Live
-    // static let baseURL =  "https://kaushal.dord.gov.in/demobackend/"      //demo
+    //static let baseURL =  "https://kaushal.rural.gov.in/backend/"      //Live
+     static let baseURL =  "https://kaushal.dord.gov.in/demobackend/"      //demo
 
 
     static let apiBackend = "kaushalpanjee/"
@@ -26,4 +26,10 @@ enum APIConstants {
     
     
     static let checkUserExistance =   apiBackend + apiCitizen + "checkUserExistance"
+    
+    static let insertAadhaarTxn =   apiBackend + apiCitizen + "saveAadhaarTxn"
+        
+    static let API_CREATE_USER =   apiBackend + apiCitizen + "createUser"
+    
+    static let getUnnati = apiBackend + apiCitizen + "getLink"
 }

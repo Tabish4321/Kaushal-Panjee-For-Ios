@@ -126,7 +126,10 @@ final class RegistrationRepository {
                 code: -1,
                 userInfo: [
                     NSLocalizedDescriptionKey:
-                        "Unable to encrypt Aadhaar number."
+                        NSLocalizedString(
+                            "registration.aadhaar_encryption_failed",
+                            comment: ""
+                        )
                 ]
             )
         }
@@ -156,11 +159,43 @@ final class RegistrationRepository {
         parameters: [String: String]
     ) async throws -> Data {
 
-        let ekycURL = "https://awaasplus.nic.in/uidService/Services/Service.svc/PostOnAUA_Face_auth"
+        let ekycURL = "https://nregarep2.nic.in/uid_gramg/stateservices/Uid_Face_Auth_DDUGKY.svc/PostOnAUA_Face_auth"
 
         return try await apiClient.requestExternalEkyc(
             url: ekycURL,
             parameters: parameters
         )
     }
+    
+    
+    // MARK: - Insert Aadhaar Transaction
+
+    func insertAadhaarTxn(
+        request: InsertAadhaarTxnReq
+    ) async throws -> InsertAadhaarTxnRes {
+
+        return try await apiClient.request(
+            endpoint: APIConstants.insertAadhaarTxn,
+            method: .post,
+            parameters: request,
+            requiresAuth: false
+        )
+    }
+    
+
+    
+    // MARK: - Create User
+
+    func createUser(
+        request: UserCreationReq
+    ) async throws -> CreateUserRes {
+
+        return try await apiClient.request(
+            endpoint: APIConstants.API_CREATE_USER,
+            method: .post,
+            parameters: request,
+            requiresAuth: false
+        )
+    }
+    
 }

@@ -1,26 +1,33 @@
 "app.name" = "कौशल पंजी";
+
 "app.department" = "ग्रामीण विकास मंत्रालय";
 
-"login.welcome" = "ग्रामीण आजीविका को अवसरों के माध्यम से सशक्त बनाना";
+"login.welcome" = "अवसरों के माध्यम से ग्रामीण आजीविका को सशक्त बनाना";
 
 "login.title" = "अपने खाते में लॉगिन करें";
-"login.subtitle" = "जारी रखने के लिए अपनी जानकारी सुरक्षित रूप से दर्ज करें";
+
+"login.subtitle" = "जारी रखने के लिए अपने खाते में लॉगिन करें";
 
 "login.id" = "लॉगिन आईडी";
+
 "login.id.placeholder" = "अपनी लॉगिन आईडी दर्ज करें";
 
 "login.password" = "पासवर्ड";
+
 "login.password.placeholder" = "अपना पासवर्ड दर्ज करें";
 
 "login.forgot_password" = "आईडी और पासवर्ड भूल गए?";
 
 "login.button" = "लॉगिन";
-"login.register" = "पंजीकरण";
+
+"login.register" = "पंजीकरण करें";
+
 "login.about_unnati" = "उन्नति के बारे में";
 
 "login.language" = "भाषा";
 
-"login.secure.title" = "आपका डेटा हमारे पास सुरक्षित है";
+"login.secure.title" = "आपका डेटा हमारे साथ सुरक्षित है";
+
 "login.secure.subtitle" = "हम उच्चतम स्तर की डेटा सुरक्षा सुनिश्चित करते हैं";
 
 "login.secure" = "आपकी जानकारी सुरक्षित रूप से संरक्षित है";
@@ -30,3 +37,141 @@
 "common.or" = "या";
 
 "common.version" = "संस्करण %@";
+
+
+"registration.step.of" = "%d में से %d";
+
+"registration.title" = "पंजीकरण";
+
+"registration.enter_email" = "कृपया अपना ईमेल पता दर्ज करें";
+
+"registration.valid_email" = "कृपया एक मान्य ईमेल पता दर्ज करें";
+
+"registration.enter_mobile" = "कृपया मोबाइल नंबर दर्ज करें";
+
+"registration.mobile_10_digits" = "मोबाइल नंबर 10 अंकों का होना चाहिए";
+
+"registration.mobile_only_digits" = "मोबाइल नंबर में केवल अंक होने चाहिए";
+
+"registration.valid_mobile" = "कृपया एक मान्य मोबाइल नंबर दर्ज करें";
+
+"registration.valid_indian_mobile" = "कृपया एक मान्य भारतीय मोबाइल नंबर दर्ज करें";
+
+"registration.enter_otp" = "कृपया 4 अंकों का OTP दर्ज करें";
+
+"registration.update_application" = "कृपया एप्लिकेशन अपडेट करें";
+
+"registration.something_went_wrong" = "कुछ गलत हो गया";
+
+"registration.candidate_id_not_found" = "कैंडिडेट आईडी नहीं मिली";
+
+"registration.candidate_id_missing" = "कैंडिडेट आईडी उपलब्ध नहीं है";
+
+"registration.state_list_load_failed" = "राज्य सूची लोड करने में असमर्थ";
+
+"registration.state_list_not_available" = "राज्य सूची उपलब्ध नहीं है";
+
+"registration.select_state" = "कृपया एक राज्य चुनें";
+
+"registration.state_lgd_missing" = "राज्य LGD कोड उपलब्ध नहीं है";
+
+"registration.valid_aadhaar" = "मान्य आधार नंबर";
+
+"registration.invalid_aadhaar" = "अमान्य आधार नंबर";
+
+"registration.accept_consent" = "कृपया सहमति स्वीकार करें";
+
+"registration.email_missing" = "ईमेल पता उपलब्ध नहीं है";
+
+"registration.mobile_missing" = "मोबाइल नंबर उपलब्ध नहीं है";
+
+"registration.facerd_processing_failed" = "FaceRD प्रतिक्रिया को संसाधित करने में असमर्थ";
+
+"registration.face_auth_failed" = "फेस प्रमाणीकरण विफल रहा";
+
+"registration.ekyc_data_generation_failed" = "eKYC डेटा तैयार करने में असमर्थ";
+
+"registration.ekyc_processing_failed" = "eKYC संसाधित करने में असमर्थ";
+
+"registration.invalid_aadhaar_response" = "अमान्य आधार प्रतिक्रिया";
+
+"registration.aadhaar_details_failed" = "आधार विवरण प्राप्त करने में असमर्थ";
+
+"registration.aadhaar_parse_failed" = "आधार विवरण को संसाधित करने में असमर्थ";
+
+"registration.aadhaar_auth_failed" = "आधार प्रमाणीकरण विफल रहा";
+
+"registration.user_creation_failed" = "उपयोगकर्ता बनाना विफल रहा";
+
+"registration.user_details_not_found" = "उपयोगकर्ता विवरण नहीं मिला";
+
+"registration.user_creation_failed_retry" = "उपयोगकर्ता बनाने में विफल। कृपया पुनः प्रयास करें।";
+
+"registration.complete_title" = "पंजीकरण पूर्ण";
+
+"registration.complete_description" = "आपका पंजीकरण सफलतापूर्वक पूरा हो गया है।";
+
+"registration.selected_state" = "चयनित राज्य";
+
+"registration.verify_mobile" = "अपने मोबाइल नंबर का सत्यापन करें";
+
+"registration.mobile_continue" = "जारी रखने के लिए अपना मोबाइल नंबर दर्ज करें";
+
+"registration.mobile_placeholder" = "10 अंकों का मोबाइल नंबर दर्ज करें";
+
+"registration.mobile_secure" = "आपका मोबाइल नंबर हमारे साथ सुरक्षित है";
+
+"registration.otp_sent_to" = "भेजा गया सत्यापन कोड दर्ज करें";
+
+"registration.otp_4_digit" = "4 अंकों का OTP दर्ज करें";
+
+"registration.verify_continue" = "सत्यापित करें और जारी रखें";
+
+"registration.verification_secure" = "आपका सत्यापन हमारे साथ सुरक्षित है";
+
+"registration.verify_email" = "अपने ईमेल का सत्यापन करें";
+
+"registration.email_continue" = "जारी रखने के लिए अपना ईमेल पता दर्ज करें";
+
+"registration.email_address" = "ईमेल पता";
+
+"registration.email_placeholder" = "अपना ईमेल पता दर्ज करें";
+
+"registration.skip_for_now" = "अभी छोड़ें";
+
+"registration.email_verify_later" = "आप बाद में अपना ईमेल सत्यापित कर सकते हैं।";
+
+"registration.aadhaar_verification" = "आधार सत्यापन";
+
+"registration.aadhaar_description" = "अपनी पहचान सत्यापित करने के लिए अपना 12 अंकों का आधार नंबर दर्ज करें।";
+
+"registration.aadhaar_number" = "आधार नंबर";
+
+"registration.aadhaar_placeholder" = "12 अंकों का आधार नंबर दर्ज करें";
+
+"registration.read_more" = "और पढ़ें";
+
+"registration.read_less" = "कम पढ़ें";
+
+"registration.verify_aadhaar" = "आधार सत्यापित करें";
+
+"registration.aadhaar_encryption_failed" = "आधार नंबर को एन्क्रिप्ट करने में असमर्थ।";
+
+"registration.select_state_title" = "अपना राज्य चुनें";
+"registration.select_state_description" = "कृपया वह राज्य चुनें जहाँ आप पंजीकरण करना चाहते हैं।";
+
+"registration.consent_short" = "मैं एतद्द्वारा घोषणा करता/करती हूँ कि मुझे आधार-आधारित प्रमाणीकरण प्रणाली के माध्यम से अपना प्रमाणीकरण कराने में कोई आपत्ति नहीं है और मैं अपना आधार नंबर प्रदान करने के लिए सहमत हूँ...";
+
+"registration.consent_full" = "मैं एतद्द्वारा घोषणा करता/करती हूँ कि मुझे आधार-आधारित प्रमाणीकरण प्रणाली के माध्यम से अपना प्रमाणीकरण कराने में कोई आपत्ति नहीं है और मैं राष्ट्रीय सूचना विज्ञान केंद्र से DDUGKY और RSETI के लिए Unified IT Platform का लाभ उठाने के उद्देश्य से आधार-आधारित प्रमाणीकरण के लिए अपना आधार नंबर, बायोमेट्रिक और/या वन टाइम पिन (OTP) डेटा प्रदान करने के लिए सहमत हूँ।\n\nमैं समझता/समझती हूँ कि प्रमाणीकरण के लिए मेरे द्वारा प्रदान किए गए बायोमेट्रिक और/या OTP का उपयोग केवल उस विशिष्ट लेनदेन के लिए आधार प्रमाणीकरण प्रणाली के माध्यम से मेरी पहचान सत्यापित करने के लिए किया जाएगा और किसी अन्य उद्देश्य के लिए नहीं किया जाएगा।\n\nमैं समझता/समझती हूँ कि राष्ट्रीय सूचना विज्ञान केंद्र आधार-आधारित प्रमाणीकरण के उद्देश्य से प्रदान किए गए मेरे व्यक्तिगत पहचान डेटा की सुरक्षा और गोपनीयता सुनिश्चित करेगा।";
+
+"common.continue" = "जारी रखें";
+
+"common.send_otp" = "OTP भेजें";
+
+"common.submit" = "सबमिट करें";
+
+"common.verify" = "सत्यापित करें";
+
+"common.resend_otp" = "OTP पुनः भेजें";
+
+"common.done" = "हो गया";

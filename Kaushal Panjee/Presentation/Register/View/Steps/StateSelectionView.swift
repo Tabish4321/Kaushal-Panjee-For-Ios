@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct StateSelectionView: View {
+    
+    @EnvironmentObject
+     private var languageManager: LanguageManager
 
     @ObservedObject var viewModel: RegistrationViewModel
 
@@ -51,7 +54,9 @@ struct StateSelectionView: View {
                             )
 
                             Text(
-                                "Select your state"
+                                verbatim: languageManager.localized(
+                                    "registration.select_state_title"
+                                )
                             )
                             .font(
                                 .system(
@@ -68,7 +73,9 @@ struct StateSelectionView: View {
                             )
 
                             Text(
-                                "Please select the state where you want to register."
+                                verbatim: languageManager.localized(
+                                    "registration.select_state_description"
+                                )
                             )
                             .font(
                                 .system(
@@ -364,10 +371,11 @@ struct StateSelectionView: View {
                     )
 
                     AppButton(
-                        title: "CONTINUE",
+                        title: languageManager.localized(
+                            "common.continue"
+                        ),
                         icon: "arrow.right",
                         action: {
-
                             viewModel.continueFromState()
                         },
                         isDisabled: false

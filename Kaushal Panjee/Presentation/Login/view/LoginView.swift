@@ -6,10 +6,18 @@ struct LoginView: View {
 
     @StateObject private var viewModel: LoginViewModel
 
+    // MARK: - Language Manager
+
+    @StateObject private var languageManager =
+        LanguageManager.shared
+
     // MARK: - Navigation
 
     @State private var navigateToRegistration = false
+    
+    @State private var navigateToAboutUnnati = false
 
+    @State private var registrationLoginSuccess = false
 
     // MARK: - Init
 
@@ -21,7 +29,6 @@ struct LoginView: View {
             )
         )
     }
-
 
     // MARK: - Body
 
@@ -35,7 +42,6 @@ struct LoginView: View {
 
                 Color.appBackground
                     .ignoresSafeArea()
-
 
                 // MARK: Rural Footer
 
@@ -55,7 +61,6 @@ struct LoginView: View {
                 }
                 .ignoresSafeArea()
 
-
                 // MARK: Main Content
 
                 VStack(
@@ -67,7 +72,6 @@ struct LoginView: View {
                             height:
                                 geometry.safeAreaInsets.top + 55
                         )
-
 
                     // MARK: Language
 
@@ -82,7 +86,6 @@ struct LoginView: View {
                             )
                     }
 
-
                     // MARK: Header
 
                     LoginHeaderView()
@@ -91,14 +94,15 @@ struct LoginView: View {
                             10
                         )
 
-
                     // MARK: Login Card
 
                     LoginCardView(
                         viewModel: viewModel,
                         onRegisterClick: {
-
                             navigateToRegistration = true
+                        },
+                        onAboutUnnatiClick: {
+                            navigateToAboutUnnati = true
                         }
                     )
                     .padding(
@@ -110,24 +114,21 @@ struct LoginView: View {
                         50
                     )
 
-
                     Spacer(
                         minLength: 0
                     )
 
-
                     // MARK: Security
 
                     AppSecurityBanner(
-                        title: "login.secure.title",
-                        subtitle: "login.secure.subtitle",
+                        title: languageManager.localized("login.secure.title"),
+                        subtitle: languageManager.localized("login.secure.subtitle"),
                         icon: "checkmark.shield.fill"
                     )
                     .padding(
                         .bottom,
                         4
                     )
-
 
                     // MARK: Version
 
@@ -163,12 +164,15 @@ struct LoginView: View {
                 )
             }
         }
+
         .ignoresSafeArea(
             edges: .top
         )
+
         .background(
             Color.appBackground
         )
+
         .ignoresSafeArea(
             .keyboard,
             edges: .bottom
@@ -184,13 +188,41 @@ struct LoginView: View {
             HomeView()
         }
 
+        
+        .navigationDestination(
+            isPresented: $navigateToAboutUnnati
+        ) {
+            AboutUnnatiView()
+                .environmentObject(languageManager)
+        }
+        
+        
         // MARK: Login → Registration
 
         .navigationDestination(
             isPresented: $navigateToRegistration
         ) {
+            RegistrationView { userId, appCode in
+                navigateToRegistration = false
 
-            RegistrationView()
+                KeychainManager.shared.save(
+                    key: KeychainKeys.accessToken,
+                    value: "Bearer " + appCode
+                )
+
+                AppPreferences.shared.saveUserId(userId)
+
+                AppPreferences.shared.saveLoginStatus(true)
+
+                viewModel.loginSuccess = true
+            }
+            .environmentObject(languageManager)
         }
+
+        // MARK: Language Environment
+
+        .environmentObject(
+            languageManager
+        )
     }
 }

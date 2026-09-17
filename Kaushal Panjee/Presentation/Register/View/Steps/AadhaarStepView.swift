@@ -8,17 +8,18 @@ struct AadhaarStepView: View {
 
     @State private var isConsentExpanded = false
 
-    private let shortConsentText =
-        "I hereby state that I have no objection in authenticating myself with the Aadhaar-based authentication system and consent to providing my Aadhaar number..."
+    @State private var isAadhaarVisible = false
 
-    private let fullConsentText =
-        """
-        I hereby state that I have no objection in authenticating myself with the Aadhaar-based authentication system and consent to providing my Aadhaar number, biometric and/or One Time Pin (OTP) data for Aadhaar-based authentication for the purposes of availing the Unified IT Platform for DDUGKY and RSETI from the National Informatics Centre.
+    @EnvironmentObject
+    private var languageManager: LanguageManager
 
-        I understand that the biometrics and/or OTP I provide for authentication shall be used only for authenticating my identity through the Aadhaar authentication system for that specific transaction and for no other purposes.
+    private var shortConsentText: String {
+        languageManager.localized("registration.consent_short")
+    }
 
-        I understand that the National Informatics Centre shall ensure the security and confidentiality of my personal identity data provided for the purpose of Aadhaar-based authentication.
-        """
+    private var fullConsentText: String {
+        languageManager.localized("registration.consent_full")
+    }
 
     var body: some View {
 
@@ -49,11 +50,12 @@ struct AadhaarStepView: View {
                     Color.appDarkGreen
                 )
 
-
                 // MARK: - Title
 
                 Text(
-                    "Aadhaar Verification"
+                    verbatim: languageManager.localized(
+                        "registration.aadhaar_verification"
+                    )
                 )
                 .font(
                     .system(
@@ -65,11 +67,12 @@ struct AadhaarStepView: View {
                     Color.appDarkGreen
                 )
 
-
                 // MARK: - Description
 
                 Text(
-                    "Enter your 12 digit Aadhaar number to verify your identity."
+                    verbatim: languageManager.localized(
+                        "registration.aadhaar_description"
+                    )
                 )
                 .font(
                     .system(
@@ -80,16 +83,16 @@ struct AadhaarStepView: View {
                     Color.appTextSecondary
                 )
 
-
                 // MARK: - Aadhaar Input
 
                 VStack(
                     alignment: .leading,
                     spacing: 8
                 ) {
-
                     Text(
-                        "Aadhaar Number"
+                        verbatim: languageManager.localized(
+                            "registration.aadhaar_number"
+                        )
                     )
                     .font(
                         .system(
@@ -101,12 +104,11 @@ struct AadhaarStepView: View {
                         Color.appDarkGreen
                     )
 
-
                     HStack(
                         spacing: 0
                     ) {
 
-                        // MARK: Aadhaar Icon
+                        // MARK: - Aadhaar Icon
 
                         Image(
                             systemName: "person.text.rectangle"
@@ -125,7 +127,6 @@ struct AadhaarStepView: View {
                             height: 56
                         )
 
-
                         Rectangle()
                             .fill(
                                 Color.appBorder
@@ -135,32 +136,96 @@ struct AadhaarStepView: View {
                                 height: 28
                             )
 
+                        // MARK: - Aadhaar Field
 
-                        TextField(
-                            "Enter 12 digit Aadhaar number",
-                            text: aadhaarBinding
-                        )
-                        .keyboardType(
-                            .numberPad
-                        )
-                        .textContentType(
-                            .oneTimeCode
-                        )
-                        .focused(
-                            $isAadhaarFieldFocused
-                        )
-                        .font(
-                            .system(
-                                size: 16,
-                                weight: .medium
+                        if isAadhaarVisible {
+
+                            TextField(
+                                languageManager.localized(
+                                    "registration.aadhaar_placeholder"
+                                ),
+                                text: aadhaarBinding
                             )
-                        )
-                        .foregroundStyle(
-                            Color.appTextPrimary
-                        )
-                        .padding(
-                            .horizontal,
-                            16
+                            .keyboardType(
+                                .numberPad
+                            )
+                            .textContentType(
+                                .oneTimeCode
+                            )
+                            .focused(
+                                $isAadhaarFieldFocused
+                            )
+                            .font(
+                                .system(
+                                    size: 16,
+                                    weight: .medium
+                                )
+                            )
+                            .foregroundStyle(
+                                Color.appTextPrimary
+                            )
+                            .padding(
+                                .horizontal,
+                                16
+                            )
+
+                        } else {
+
+                            SecureField(
+                                languageManager.localized(
+                                    "registration.aadhaar_placeholder"
+                                ),
+                                text: aadhaarBinding
+                            )
+                            .keyboardType(
+                                .numberPad
+                            )
+                            .textContentType(
+                                .oneTimeCode
+                            )
+                            .focused(
+                                $isAadhaarFieldFocused
+                            )
+                            .font(
+                                .system(
+                                    size: 16,
+                                    weight: .medium
+                                )
+                            )
+                            .foregroundStyle(
+                                Color.appTextPrimary
+                            )
+                            .padding(
+                                .horizontal,
+                                16
+                            )
+                        }
+
+                        // MARK: - Eye Button
+
+                        Button {
+
+                            isAadhaarVisible.toggle()
+
+                        } label: {
+
+                            Image(systemName: isAadhaarVisible ? "eye" : "eye.slash")
+                            .font(
+                                .system(
+                                    size: 18,
+                                    weight: .medium
+                                )
+                            )
+                            .foregroundStyle(
+                                Color.appDarkGreen
+                            )
+                            .frame(
+                                width: 50,
+                                height: 56
+                            )
+                        }
+                        .buttonStyle(
+                            .plain
                         )
                     }
                     .frame(
@@ -184,7 +249,6 @@ struct AadhaarStepView: View {
                             lineWidth: 1
                         )
                     }
-
 
                     // MARK: - Validation Message
 
@@ -221,7 +285,6 @@ struct AadhaarStepView: View {
                     }
                 }
 
-
                 // MARK: - Consent
 
                 HStack(
@@ -229,7 +292,7 @@ struct AadhaarStepView: View {
                     spacing: 12
                 ) {
 
-                    // MARK: Checkbox
+                    // MARK: - Checkbox
 
                     Button {
 
@@ -258,8 +321,7 @@ struct AadhaarStepView: View {
                         .plain
                     )
 
-
-                    // MARK: Consent Text
+                    // MARK: - Consent Text
 
                     VStack(
                         alignment: .leading,
@@ -286,7 +348,6 @@ struct AadhaarStepView: View {
                             3
                         )
 
-
                         Button {
 
                             withAnimation(
@@ -301,9 +362,9 @@ struct AadhaarStepView: View {
                         } label: {
 
                             Text(
-                                isConsentExpanded
-                                ? "Read Less"
-                                : "Read More"
+                                verbatim: isConsentExpanded
+                                    ? languageManager.localized("registration.read_less")
+                                    : languageManager.localized("registration.read_more")
                             )
                             .font(
                                 .system(
@@ -321,16 +382,15 @@ struct AadhaarStepView: View {
                     }
                 }
 
-
                 // MARK: - Verify Button
 
                 AppButton(
-                    title: "VERIFY AADHAAR",
+                    title: languageManager.localized(
+                        "registration.verify_aadhaar"
+                    ),
                     icon: "checkmark.shield.fill",
                     action: {
-
                         hideKeyboard()
-
                         viewModel.verifyAadhaar()
                     },
                     isLoading: viewModel.isLoading,
@@ -338,7 +398,6 @@ struct AadhaarStepView: View {
                         !viewModel.isAadhaarValid ||
                         !viewModel.isConsentAccepted
                 )
-
 
                 // MARK: - Error
 
@@ -398,8 +457,13 @@ struct AadhaarStepView: View {
         .contentShape(
             Rectangle()
         )
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity
+        )
+        .contentShape(Rectangle())
         .onTapGesture {
-
+            isAadhaarFieldFocused = false
             hideKeyboard()
         }
         .toolbar {
@@ -411,9 +475,10 @@ struct AadhaarStepView: View {
                 Spacer()
 
                 Button(
-                    "DONE"
+                    languageManager.localized(
+                        "common.done"
+                    )
                 ) {
-
                     hideKeyboard()
                 }
                 .fontWeight(
@@ -425,7 +490,6 @@ struct AadhaarStepView: View {
             }
         }
     }
-
 
     // MARK: - Aadhaar Binding
 
@@ -456,7 +520,6 @@ struct AadhaarStepView: View {
         )
     }
 
-
     // MARK: - Aadhaar Border Color
 
     private var aadhaarBorderColor: Color {
@@ -475,7 +538,6 @@ struct AadhaarStepView: View {
             ? Color.green
             : Color.red
     }
-
 
     // MARK: - Hide Keyboard
 

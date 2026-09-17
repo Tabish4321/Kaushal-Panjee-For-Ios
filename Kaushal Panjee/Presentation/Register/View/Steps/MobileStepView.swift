@@ -3,18 +3,17 @@ import SwiftUI
 struct MobileStepView: View {
 
     @ObservedObject var viewModel: RegistrationViewModel
-
     @FocusState private var isMobileFieldFocused: Bool
 
+    @EnvironmentObject
+    private var languageManager: LanguageManager
 
     var body: some View {
-
         VStack(
             spacing: 0
         ) {
 
             // MARK: - Phone Icon
-
             Image(
                 systemName: "phone.fill"
             )
@@ -31,11 +30,11 @@ struct MobileStepView: View {
                 30
             )
 
-
             // MARK: - Title
-
             Text(
-                "Verify your mobile"
+                verbatim: languageManager.localized(
+                    "registration.verify_mobile"
+                )
             )
             .font(
                 .system(
@@ -51,11 +50,11 @@ struct MobileStepView: View {
                 20
             )
 
-
             // MARK: - Subtitle
-
             Text(
-                "Enter your mobile number to continue"
+                verbatim: languageManager.localized(
+                    "registration.mobile_continue"
+                )
             )
             .font(
                 .system(
@@ -70,9 +69,7 @@ struct MobileStepView: View {
                 8
             )
 
-
             // MARK: - Mobile Input
-
             HStack(
                 spacing: 0
             ) {
@@ -94,7 +91,6 @@ struct MobileStepView: View {
                     16
                 )
 
-
                 Rectangle()
                     .fill(
                         Color.appBorder
@@ -104,9 +100,10 @@ struct MobileStepView: View {
                         height: 28
                     )
 
-
                 TextField(
-                    "Enter 10 digit mobile number",
+                    languageManager.localized(
+                        "registration.mobile_placeholder"
+                    ),
                     text: $viewModel.mobileNumber
                 )
                 .keyboardType(
@@ -162,7 +159,6 @@ struct MobileStepView: View {
                 )
             )
             .overlay {
-
                 RoundedRectangle(
                     cornerRadius: 14
                 )
@@ -176,13 +172,10 @@ struct MobileStepView: View {
                 36
             )
 
-
             // MARK: - Error
-
             if !viewModel.errorMessage.isEmpty {
-
                 Text(
-                    viewModel.errorMessage
+                    verbatim: viewModel.errorMessage
                 )
                 .font(
                     .system(
@@ -203,14 +196,13 @@ struct MobileStepView: View {
                 )
             }
 
-
             // MARK: - Send OTP
-
             AppButton(
-                title: "SEND OTP",
+                title: languageManager.localized(
+                    "common.send_otp"
+                ),
                 icon: "arrow.right",
                 action: {
-
                     submitMobile()
                 },
                 isLoading: viewModel.isLoading,
@@ -222,9 +214,7 @@ struct MobileStepView: View {
                 24
             )
 
-
             // MARK: - Security
-
             HStack(
                 spacing: 6
             ) {
@@ -234,7 +224,9 @@ struct MobileStepView: View {
                 )
 
                 Text(
-                    "Your mobile number is secure with us"
+                    verbatim: languageManager.localized(
+                        "registration.verification_secure"
+                    )
                 )
             }
             .font(
@@ -249,7 +241,6 @@ struct MobileStepView: View {
                 .top,
                 18
             )
-
 
             Spacer(
                 minLength: 20
@@ -268,21 +259,19 @@ struct MobileStepView: View {
             Rectangle()
         )
         .onTapGesture {
-
             hideKeyboard()
         }
         .toolbar {
-
             ToolbarItemGroup(
                 placement: .keyboard
             ) {
-
                 Spacer()
 
                 Button(
-                    "SUBMIT"
+                    languageManager.localized(
+                        "common.submit"
+                    )
                 ) {
-
                     submitMobile()
                 }
                 .fontWeight(
@@ -299,26 +288,20 @@ struct MobileStepView: View {
         }
     }
 
-
     // MARK: - Submit Mobile
-
     private func submitMobile() {
 
         guard
             viewModel.mobileNumber.count == 10
         else {
-
             return
         }
 
         hideKeyboard()
-
         viewModel.submitMobile()
     }
 
-
     // MARK: - Hide Keyboard
-
     private func hideKeyboard() {
 
         isMobileFieldFocused = false

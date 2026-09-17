@@ -3,18 +3,19 @@ import SwiftUI
 struct EmailOTPStepView: View {
 
     @ObservedObject var viewModel: RegistrationViewModel
+    
 
     @FocusState private var otpFieldFocused: Bool
 
+    @EnvironmentObject
+    private var languageManager: LanguageManager
 
     var body: some View {
-
         VStack(
             spacing: 0
         ) {
 
             // MARK: - Email OTP Icon
-
             Image(
                 systemName: "envelope.badge.fill"
             )
@@ -31,11 +32,11 @@ struct EmailOTPStepView: View {
                 30
             )
 
-
             // MARK: - Title
-
             Text(
-                "Verify your email"
+                verbatim: languageManager.localized(
+                    "registration.verify_email"
+                )
             )
             .font(
                 .system(
@@ -51,11 +52,11 @@ struct EmailOTPStepView: View {
                 20
             )
 
-
             // MARK: - Subtitle
-
             Text(
-                "Enter the verification code sent to"
+                verbatim: languageManager.localized(
+                    "registration.otp_sent_to"
+                )
             )
             .font(
                 .system(
@@ -70,11 +71,9 @@ struct EmailOTPStepView: View {
                 8
             )
 
-
             // MARK: - Email
-
             Text(
-                viewModel.email
+                verbatim: viewModel.email
             )
             .font(
                 .system(
@@ -90,9 +89,7 @@ struct EmailOTPStepView: View {
                 4
             )
 
-
             // MARK: - OTP Input
-
             OTPInputView(
                 otp: $viewModel.otp,
                 isFocused: $otpFieldFocused
@@ -102,11 +99,11 @@ struct EmailOTPStepView: View {
                 36
             )
 
-
             // MARK: - OTP Hint
-
             Text(
-                "Enter the 4 digit OTP"
+                verbatim: languageManager.localized(
+                    "registration.otp_4_digit"
+                )
             )
             .font(
                 .system(
@@ -121,13 +118,10 @@ struct EmailOTPStepView: View {
                 12
             )
 
-
             // MARK: - Error
-
             if !viewModel.errorMessage.isEmpty {
-
                 Text(
-                    viewModel.errorMessage
+                    verbatim: viewModel.errorMessage
                 )
                 .font(
                     .system(
@@ -147,14 +141,13 @@ struct EmailOTPStepView: View {
                 )
             }
 
-
             // MARK: - Verify Button
-
             AppButton(
-                title: "VERIFY EMAIL",
+                title: languageManager.localized(
+                    "registration.verify_email"
+                ),
                 icon: "arrow.right",
                 action: {
-
                     verifyEmailOTP()
                 },
                 isLoading: viewModel.isLoading,
@@ -166,32 +159,27 @@ struct EmailOTPStepView: View {
                 28
             )
 
-
             // MARK: - Resend OTP
-
             Button {
-
                 viewModel.resendEmailOTP()
 
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + 0.5
                 ) {
-
                     otpFieldFocused = true
                 }
-
             } label: {
-
                 HStack(
                     spacing: 8
                 ) {
-
                     Image(
                         systemName: "arrow.clockwise"
                     )
 
                     Text(
-                        "Resend OTP"
+                        verbatim: languageManager.localized(
+                            "common.resend_otp"
+                        )
                     )
                 }
                 .font(
@@ -215,19 +203,18 @@ struct EmailOTPStepView: View {
                 22
             )
 
-
             // MARK: - Security
-
             HStack(
                 spacing: 6
             ) {
-
                 Image(
                     systemName: "lock.fill"
                 )
 
                 Text(
-                    "Your verification is secure with us"
+                    verbatim: languageManager.localized(
+                        "registration.verification_secure"
+                    )
                 )
             }
             .font(
@@ -242,7 +229,6 @@ struct EmailOTPStepView: View {
                 .top,
                 20
             )
-
 
             Spacer(
                 minLength: 20
@@ -261,30 +247,26 @@ struct EmailOTPStepView: View {
             Rectangle()
         )
         .onTapGesture {
-
             hideKeyboard()
         }
         .onAppear {
-
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + 0.4
             ) {
-
                 otpFieldFocused = true
             }
         }
         .toolbar {
-
             ToolbarItemGroup(
                 placement: .keyboard
             ) {
-
                 Spacer()
 
                 Button(
-                    "VERIFY EMAIL"
+                    languageManager.localized(
+                        "registration.verify_email"
+                    )
                 ) {
-
                     verifyEmailOTP()
                 }
                 .fontWeight(
@@ -301,13 +283,10 @@ struct EmailOTPStepView: View {
         }
     }
 
-
+    // MARK: - Verify Email OTP
     private func verifyEmailOTP() {
 
-        guard
-            viewModel.otp.count == 4
-        else {
-
+        guard viewModel.otp.count == 4 else {
             return
         }
 
@@ -316,7 +295,7 @@ struct EmailOTPStepView: View {
         viewModel.verifyEmailOTP()
     }
 
-
+    // MARK: - Hide Keyboard
     private func hideKeyboard() {
 
         otpFieldFocused = false

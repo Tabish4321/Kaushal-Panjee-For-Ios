@@ -2,23 +2,13 @@ import SwiftUI
 
 struct AppSecurityBanner: View {
 
-    // MARK: - Properties
-
-    let title: LocalizedStringKey
-    let subtitle: LocalizedStringKey
-
+    let title: String
+    let subtitle: String
     let icon: String
-
-
-    // MARK: - Body
 
     var body: some View {
 
         HStack(spacing: 9) {
-
-            // =====================================================
-            // MARK: Security Icon
-            // =====================================================
 
             ZStack {
 
@@ -44,11 +34,6 @@ struct AppSecurityBanner: View {
                 width: 38,
                 height: 38
             )
-
-
-            // =====================================================
-            // MARK: Text
-            // =====================================================
 
             VStack(
                 alignment: .leading,
@@ -82,15 +67,9 @@ struct AppSecurityBanner: View {
                     .minimumScaleFactor(0.65)
             }
 
-
             Spacer(
                 minLength: 0
             )
-
-
-            // =====================================================
-            // MARK: Arrow
-            // =====================================================
 
             Image(
                 systemName: "chevron.right"
@@ -120,7 +99,6 @@ struct AppSecurityBanner: View {
             Capsule()
         )
         .overlay {
-
             Capsule()
                 .stroke(
                     Color.appBorder.opacity(0.6),

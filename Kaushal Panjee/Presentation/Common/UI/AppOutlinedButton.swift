@@ -4,8 +4,10 @@ struct AppOutlinedButton: View {
 
     // MARK: - Properties
 
-    let title: LocalizedStringKey
+    let title: String
+
     let icon: String
+
     let action: () -> Void
 
 
@@ -43,7 +45,7 @@ struct AppOutlinedButton: View {
                 // MARK: Title
                 // =====================================================
 
-                Text(title)
+                Text(verbatim: title)
                     .font(
                         .system(
                             size: 12,

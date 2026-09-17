@@ -87,6 +87,8 @@ final class FaceRDManager {
     // MARK: Singleton
 
     static let shared = FaceRDManager()
+    
+    private(set) var transactionId = ""
 
     // OLD PROJECT COMPATIBILITY
     // Agar kahin old code FaceRDManager.Shared use karta hai
@@ -208,7 +210,7 @@ final class FaceRDManager {
         environment: String = "P"
     ) -> String {
 
-        let transactionId = getTransactionID()
+         transactionId = getTransactionID()
 
         let pidOptions = """
         <?xml version="1.0" encoding="UTF-8"?>

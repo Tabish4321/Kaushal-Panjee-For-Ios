@@ -2,9 +2,9 @@ import SwiftUI
 
 struct AppTextField: View {
 
-    let title: LocalizedStringKey
+    let title: String
 
-    let placeholder: LocalizedStringKey
+    let placeholder: String
 
     let icon: String
 
@@ -17,6 +17,7 @@ struct AppTextField: View {
     var submitButtonTitle: String = "Done"
 
     var onSubmit: (() -> Void)? = nil
+
 
     var body: some View {
 
@@ -40,17 +41,23 @@ struct AppTextField: View {
                 )
             )
 
+
             VStack(
                 alignment: .leading,
                 spacing: 1
             ) {
 
-                AppText(
-                    title,
-                    size: 10,
-                    weight: .medium,
-                    color: .appTextSecondary
-                )
+                Text(verbatim: title)
+                    .font(
+                        .system(
+                            size: 10,
+                            weight: .medium
+                        )
+                    )
+                    .foregroundStyle(
+                        Color.appTextSecondary
+                    )
+
 
                 TextField(
                     placeholder,
@@ -77,6 +84,7 @@ struct AppTextField: View {
                     )
                 )
             }
+
 
             Spacer(
                 minLength: 0
@@ -108,6 +116,7 @@ struct AppTextField: View {
             )
         }
 
+
         // MARK: - Keyboard Toolbar
 
         .toolbar {
@@ -132,6 +141,7 @@ struct AppTextField: View {
             }
         }
     }
+
 
     // MARK: - Hide Keyboard
 

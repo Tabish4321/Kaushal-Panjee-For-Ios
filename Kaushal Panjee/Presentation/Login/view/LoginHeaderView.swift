@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct LoginHeaderView: View {
+    
+    @EnvironmentObject
+    private var languageManager: LanguageManager
 
     var body: some View {
 
@@ -51,10 +54,7 @@ struct LoginHeaderView: View {
             // MARK: App Name
 
             Text(
-                NSLocalizedString(
-                    "app.name",
-                    comment: ""
-                )
+                languageManager.localized("app.name")
             )
             .font(
                 .system(
@@ -115,10 +115,7 @@ struct LoginHeaderView: View {
             // MARK: Department
 
             Text(
-                NSLocalizedString(
-                    "app.department",
-                    comment: ""
-                )
+                languageManager.localized("app.department")
             )
             .font(
                 .system(

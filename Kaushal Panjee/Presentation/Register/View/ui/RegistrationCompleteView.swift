@@ -41,7 +41,10 @@ struct RegistrationCompleteView: View {
                 // MARK: - Title
 
                 Text(
-                    "Registration Complete"
+                    NSLocalizedString(
+                        "registration.complete_title",
+                        comment: ""
+                    )
                 )
                 .font(
                     .system(
@@ -56,7 +59,10 @@ struct RegistrationCompleteView: View {
                 // MARK: - Description
 
                 Text(
-                    "Your registration has been completed successfully."
+                    NSLocalizedString(
+                        "registration.complete_description",
+                        comment: ""
+                    )
                 )
                 .font(
                     .system(
@@ -85,7 +91,10 @@ struct RegistrationCompleteView: View {
                     ) {
 
                         Text(
-                            "Selected State"
+                            NSLocalizedString(
+                                "registration.selected_state",
+                                comment: ""
+                            )
                         )
                         .font(
                             .system(
@@ -171,10 +180,9 @@ struct RegistrationCompleteView: View {
                 // MARK: - Continue Button
 
                 AppButton(
-                    title: "CONTINUE",
+                    title: "common.continue",
                     icon: "arrow.right",
                     action: {
-
                         // Registration complete ke baad
                         // next navigation yahan handle hogi
                     }

@@ -469,4 +469,29 @@ final class LoginViewModel: ObservableObject {
             comment: ""
         )
     }
+    
+    
+    func completeRegistrationLogin(
+        userId: String,
+        appCode: String
+    ) {
+        guard !userId.isEmpty, !appCode.isEmpty else {
+            errorMessage = NSLocalizedString(
+                "login.complete_login_failed",
+                comment: ""
+            )
+            return
+        }
+
+        KeychainManager.shared.save(
+            key: KeychainKeys.accessToken,
+            value: "Bearer " + appCode
+        )
+
+        AppPreferences.shared.saveUserId(userId)
+
+        AppPreferences.shared.saveLoginStatus(true)
+
+        loginSuccess = true
+    }
 }

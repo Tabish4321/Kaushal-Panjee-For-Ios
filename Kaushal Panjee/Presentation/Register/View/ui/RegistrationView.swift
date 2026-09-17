@@ -2,12 +2,33 @@ import SwiftUI
 
 struct RegistrationView: View {
 
+    @EnvironmentObject private var languageManager: LanguageManager
+    
+    
+    // MARK: - Environment
+
     @Environment(\.dismiss) private var dismiss
+
+    // MARK: - Registration Success Callback
+
+    let onRegistrationSuccess: (_ userId: String, _ appCode: String) -> Void
+    
+    // MARK: - ViewModel
 
     @StateObject private var viewModel =
         RegistrationViewModel(
             repository: RegistrationRepository()
         )
+
+    // MARK: - Init
+
+    init(
+        onRegistrationSuccess: @escaping (_ userId: String, _ appCode: String) -> Void = { _, _ in }
+    ) {
+        self.onRegistrationSuccess = onRegistrationSuccess
+    }
+
+    // MARK: - Body
 
     var body: some View {
 
@@ -45,7 +66,7 @@ struct RegistrationView: View {
                     // MARK: - Header
 
                     AppHeaderView(
-                        title: "Registration",
+                        title: languageManager.localized("registration.title"),
                         showBackButton: true,
                         onBack: {
                             handleBack()
@@ -137,11 +158,9 @@ struct RegistrationView: View {
                 edges: .bottom
             )
         }
-
         .background(
             Color.appBackground
         )
-
         .ignoresSafeArea(
             .keyboard,
             edges: .bottom
@@ -169,12 +188,21 @@ struct RegistrationView: View {
                     dob: viewModel.aadhaarDOB
                 ) {
 
+                    // Close popup
+
                     withAnimation(
                         .easeInOut(duration: 0.2)
                     ) {
-
                         viewModel.showEkycSuccessDialog = false
                     }
+
+                    // Registration successful
+
+                    // Registration successful
+                    onRegistrationSuccess(
+                        viewModel.createdUserId,
+                        viewModel.createdAppCode
+                    )
                 }
                 .transition(
                     .opacity
@@ -211,7 +239,6 @@ struct RegistrationView: View {
             withAnimation(
                 .easeInOut(duration: 0.25)
             ) {
-
                 viewModel.goBack()
             }
         }
@@ -224,24 +251,31 @@ struct RegistrationView: View {
         switch viewModel.step {
 
         case .email:
+
             return 1
 
         case .emailOTP:
+
             return 2
 
         case .mobile:
+
             return 3
 
         case .mobileOTP:
+
             return 4
 
         case .selectState:
+
             return 5
 
         case .aadhaar:
+
             return 6
 
         case .registrationComplete:
+
             return 6
         }
     }

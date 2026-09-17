@@ -4,8 +4,10 @@ struct AppPasswordField: View {
 
     // MARK: - Properties
 
-    let title: LocalizedStringKey
-    let placeholder: LocalizedStringKey
+    let title: String
+
+    let placeholder: String
+
     let icon: String
 
     @Binding var text: String
@@ -60,7 +62,7 @@ struct AppPasswordField: View {
                 spacing: 1
             ) {
 
-                Text(title)
+                Text(verbatim: title)
                     .font(
                         .system(
                             size: 10,

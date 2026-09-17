@@ -2,10 +2,15 @@ import SwiftUI
 
 struct LoginCardView: View {
 
-    @ObservedObject var viewModel: LoginViewModel
+    @EnvironmentObject
+    private var languageManager: LanguageManager
+
+    @ObservedObject
+    var viewModel: LoginViewModel
 
     let onRegisterClick: () -> Void
-
+    let onAboutUnnatiClick: () -> Void
+    
     var body: some View {
 
         ZStack(
@@ -23,13 +28,10 @@ struct LoginCardView: View {
                             height: 36
                         )
 
-                    // MARK: Title
+                    // MARK: - Title
 
                     Text(
-                        NSLocalizedString(
-                            "login.title",
-                            comment: ""
-                        )
+                        verbatim: languageManager.localized("login.title")
                     )
                     .font(
                         .system(
@@ -43,13 +45,10 @@ struct LoginCardView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
 
-                    // MARK: Subtitle
+                    // MARK: - Subtitle
 
                     Text(
-                        NSLocalizedString(
-                            "login.subtitle",
-                            comment: ""
-                        )
+                        verbatim: languageManager.localized("login.subtitle")
                     )
                     .font(
                         .system(
@@ -67,11 +66,11 @@ struct LoginCardView: View {
                         3
                     )
 
-                    // MARK: Login ID
+                    // MARK: - Login ID
 
                     AppTextField(
-                        title: "login.id",
-                        placeholder: "login.id.placeholder",
+                        title: languageManager.localized("login.id"),
+                        placeholder: languageManager.localized("login.id.placeholder"),
                         icon: "person",
                         text: $viewModel.loginId
                     )
@@ -80,11 +79,11 @@ struct LoginCardView: View {
                         14
                     )
 
-                    // MARK: Password
+                    // MARK: - Password
 
                     AppPasswordField(
-                        title: "login.password",
-                        placeholder: "login.password.placeholder",
+                        title: languageManager.localized("login.password"),
+                        placeholder: languageManager.localized("login.password.placeholder"),
                         icon: "lock",
                         text: $viewModel.password
                     )
@@ -93,7 +92,7 @@ struct LoginCardView: View {
                         8
                     )
 
-                    // MARK: Forgot Password
+                    // MARK: - Forgot Password
 
                     HStack {
 
@@ -106,9 +105,8 @@ struct LoginCardView: View {
                         } label: {
 
                             Text(
-                                NSLocalizedString(
-                                    "login.forgot_password",
-                                    comment: ""
+                                verbatim: languageManager.localized(
+                                    "login.forgot_password"
                                 )
                             )
                             .font(
@@ -129,7 +127,7 @@ struct LoginCardView: View {
                         6
                     )
 
-                    // MARK: Error
+                    // MARK: - Error
 
                     if !viewModel.errorMessage.isEmpty {
 
@@ -142,26 +140,24 @@ struct LoginCardView: View {
                         )
                     }
 
-                    // MARK: Login Button
+                    // MARK: - Login Button
 
                     AppButton(
-                        title: "login.button",
-                        icon:
-                            "rectangle.portrait.and.arrow.right",
+                        title: languageManager.localized(
+                            "login.button"
+                        ),
+                        icon: "rectangle.portrait.and.arrow.right",
                         action: {
-
                             viewModel.login()
-
                         },
-                        isLoading:
-                            viewModel.isLoading
+                        isLoading: viewModel.isLoading
                     )
                     .padding(
                         .top,
                         10
                     )
 
-                    // MARK: OR
+                    // MARK: - OR
 
                     HStack(
                         spacing: 9
@@ -176,9 +172,8 @@ struct LoginCardView: View {
                             )
 
                         Text(
-                            NSLocalizedString(
-                                "common.or",
-                                comment: ""
+                            verbatim: languageManager.localized(
+                                "common.or"
                             )
                         )
                         .font(
@@ -204,26 +199,25 @@ struct LoginCardView: View {
                         9
                     )
 
-                    // MARK: Register / About
+                    // MARK: - Register / About
 
                     HStack(
                         spacing: 8
                     ) {
 
                         AppOutlinedButton(
-                            title: "login.register",
+                            title: languageManager.localized("login.register"),
                             icon: "person.badge.plus"
                         ) {
-
                             onRegisterClick()
                         }
 
                         AppOutlinedButton(
-                            title: "login.about_unnati",
+                            title: languageManager.localized("login.about_unnati"),
                             icon: "info.circle"
                         ) {
+                            onAboutUnnatiClick()
 
-                            // TODO: About Unnati
                         }
                     }
                     .padding(
@@ -237,7 +231,7 @@ struct LoginCardView: View {
                 }
             }
 
-            // MARK: Lock Badge
+            // MARK: - Lock Badge
 
             LoginLockBadge()
                 .offset(

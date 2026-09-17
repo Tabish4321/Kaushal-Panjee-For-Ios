@@ -2,7 +2,11 @@ import SwiftUI
 
 struct EmailStepView: View {
 
-    @ObservedObject var viewModel: RegistrationViewModel
+    @EnvironmentObject
+    private var languageManager: LanguageManager
+
+    @ObservedObject
+    var viewModel: RegistrationViewModel
 
     var body: some View {
 
@@ -32,7 +36,9 @@ struct EmailStepView: View {
             // MARK: - Title
 
             Text(
-                "Verify your email"
+                verbatim: languageManager.localized(
+                    "registration.verify_email"
+                )
             )
             .font(
                 .system(
@@ -52,7 +58,9 @@ struct EmailStepView: View {
             // MARK: - Subtitle
 
             Text(
-                "Enter your email address to continue"
+                verbatim: languageManager.localized(
+                    "registration.email_continue"
+                )
             )
             .font(
                 .system(
@@ -74,13 +82,19 @@ struct EmailStepView: View {
             // MARK: - Email Input
 
             AppTextField(
-                title: "Email Address",
-                placeholder: "Enter your email address",
+                title: languageManager.localized(
+                    "registration.email_address"
+                ),
+                placeholder: languageManager.localized(
+                    "registration.email_placeholder"
+                ),
                 icon: "envelope",
                 text: $viewModel.email,
                 keyboardType: .emailAddress,
                 submitLabel: .done,
-                submitButtonTitle: "Done",
+                submitButtonTitle: languageManager.localized(
+                    "common.done"
+                ),
                 onSubmit: {
 
                     hideKeyboard()
@@ -131,7 +145,9 @@ struct EmailStepView: View {
             // MARK: - Send OTP Button
 
             AppButton(
-                title: "SEND OTP",
+                title: languageManager.localized(
+                    "common.send_otp"
+                ),
                 icon: "arrow.right",
                 action: {
 
@@ -168,7 +184,9 @@ struct EmailStepView: View {
                 ) {
 
                     Text(
-                        "Skip for now"
+                        verbatim: languageManager.localized(
+                            "registration.skip_for_now"
+                        )
                     )
 
                     Image(
@@ -195,7 +213,9 @@ struct EmailStepView: View {
 
 
             Text(
-                "You can verify your email later."
+                verbatim: languageManager.localized(
+                    "registration.email_verify_later"
+                )
             )
             .font(
                 .system(

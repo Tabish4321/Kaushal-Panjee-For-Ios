@@ -2,18 +2,19 @@ import SwiftUI
 
 struct LoginLanguageButton: View {
 
+    @EnvironmentObject
+    private var languageManager: LanguageManager
+
+    @State
+    private var showLanguageMenu = false
+
     var body: some View {
 
         Button {
-
-            // TODO:
-            // Open language selection
-
+            showLanguageMenu = true
         } label: {
 
-            HStack(
-                spacing: 6
-            ) {
+            HStack(spacing: 6) {
 
                 Image(
                     systemName: "character.bubble"
@@ -25,12 +26,10 @@ struct LoginLanguageButton: View {
                     )
                 )
 
-
                 Text(
-                    NSLocalizedString(
-                        "login.language",
-                        comment: ""
-                    )
+                    languageManager.currentLanguage == "hi"
+                    ? "हिंदी"
+                    : "English"
                 )
                 .font(
                     .system(
@@ -38,7 +37,6 @@ struct LoginLanguageButton: View {
                         weight: .medium
                     )
                 )
-
 
                 Image(
                     systemName: "chevron.down"
@@ -76,5 +74,25 @@ struct LoginLanguageButton: View {
             }
         }
         .buttonStyle(.plain)
+        .confirmationDialog(
+            languageManager.localized("login.language"),
+            isPresented: $showLanguageMenu,
+            titleVisibility: .visible
+        ) {
+
+            Button("English") {
+                languageManager.setLanguage("en")
+            }
+
+            Button("हिंदी") {
+                languageManager.setLanguage("hi")
+            }
+
+            Button(
+                languageManager.localized("common.cancel"),
+                role: .cancel
+            ) {}
+
+        }
     }
 }

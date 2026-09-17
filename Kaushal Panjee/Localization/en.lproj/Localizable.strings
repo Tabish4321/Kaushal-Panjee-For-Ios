@@ -31,39 +31,96 @@
 
 "common.version" = "Version %@";
 
-"registration.title" = "Registration";
+
 
 "registration.step.of" = "%d of %d";
+"registration.title" = "Registration";
 
-"registration.email.title" = "Create your account";
-"registration.email.subtitle" = "Enter your email address to continue. You can also skip this step.";
-"registration.email.label" = "Email Address";
-"registration.email.placeholder" = "Enter your email address";
-"registration.email.skip" = "Skip for now";
-"registration.email.skip.description" = "You can continue without adding an email address.";
+"registration.enter_email" = "Please enter your email address";
+"registration.valid_email" = "Please enter a valid email address";
 
-"registration.email.otp.title" = "Verify your email";
-"registration.email.otp.subtitle" = "We have sent a 4-digit verification code to";
+"registration.enter_mobile" = "Please enter mobile number";
+"registration.mobile_10_digits" = "Mobile number must be 10 digits";
+"registration.mobile_only_digits" = "Mobile number must contain only digits";
+"registration.valid_mobile" = "Please enter a valid mobile number";
+"registration.valid_indian_mobile" = "Please enter a valid Indian mobile number";
 
-"registration.mobile.title" = "Enter your mobile number";
-"registration.mobile.subtitle" = "We will send a verification code to your mobile number.";
-"registration.mobile.label" = "Mobile Number";
-"registration.mobile.placeholder" = "Enter mobile number";
-"registration.mobile.send_otp" = "Send OTP";
+"registration.enter_otp" = "Please enter the 4 digit OTP";
 
-"registration.mobile.otp.title" = "Verify mobile number";
-"registration.mobile.otp.subtitle" = "We have sent a 4-digit verification code to";
+"registration.update_application" = "Please update the application";
+"registration.something_went_wrong" = "Something went wrong";
 
-"registration.otp.enter" = "Enter verification code";
-"registration.otp.verify" = "Verify OTP";
-"registration.otp.not_received" = "Didn't receive the code?";
-"registration.otp.resend" = "Resend OTP";
+"registration.candidate_id_not_found" = "Candidate ID not found";
+"registration.candidate_id_missing" = "Candidate ID is missing";
 
-"registration.continue" = "Continue";
+"registration.state_list_load_failed" = "Unable to load state list";
+"registration.state_list_not_available" = "State list not available";
 
-"registration.complete.title" = "Verification completed";
-"registration.complete.subtitle" = "Your email and mobile number have been successfully verified.";
+"registration.select_state" = "Please select a state";
+"registration.state_lgd_missing" = "State LGD code is missing";
 
+"registration.valid_aadhaar" = "Valid Aadhaar number";
+"registration.invalid_aadhaar" = "Invalid Aadhaar number";
+"registration.accept_consent" = "Please accept the consent";
 
+"registration.email_missing" = "Email address is missing";
+"registration.mobile_missing" = "Mobile number is missing";
 
+"registration.facerd_processing_failed" = "Unable to process FaceRD response";
+"registration.face_auth_failed" = "Face authentication failed";
+"registration.ekyc_data_generation_failed" = "Unable to generate eKYC data";
+"registration.ekyc_processing_failed" = "Unable to process eKYC";
 
+"registration.invalid_aadhaar_response" = "Invalid Aadhaar response";
+"registration.aadhaar_details_failed" = "Unable to fetch Aadhaar details";
+"registration.aadhaar_parse_failed" = "Unable to parse Aadhaar details";
+"registration.aadhaar_auth_failed" = "Aadhaar authentication failed";
+
+"registration.user_creation_failed" = "User creation failed";
+"registration.user_details_not_found" = "User details not found";
+"registration.user_creation_failed_retry" = "User creation failed. Please try again.";
+
+"registration.complete_title" = "Registration Complete";
+"registration.complete_description" = "Your registration has been completed successfully.";
+"registration.selected_state" = "Selected State";
+
+"registration.verify_mobile" = "Verify your mobile";
+"registration.mobile_continue" = "Enter your mobile number to continue";
+"registration.mobile_placeholder" = "Enter 10 digit mobile number";
+"registration.mobile_secure" = "Your mobile number is secure with us";
+
+"registration.otp_sent_to" = "Enter the verification code sent to";
+"registration.otp_4_digit" = "Enter the 4 digit OTP";
+"registration.verify_continue" = "VERIFY & CONTINUE";
+"registration.verification_secure" = "Your verification is secure with us";
+
+"registration.verify_email" = "Verify your email";
+"registration.email_continue" = "Enter your email address to continue";
+"registration.email_address" = "Email Address";
+"registration.email_placeholder" = "Enter your email address";
+"registration.skip_for_now" = "Skip for now";
+"registration.email_verify_later" = "You can verify your email later.";
+
+"registration.aadhaar_verification" = "Aadhaar Verification";
+"registration.aadhaar_description" = "Enter your 12 digit Aadhaar number to verify your identity.";
+"registration.aadhaar_number" = "Aadhaar Number";
+"registration.aadhaar_placeholder" = "Enter 12 digit Aadhaar number";
+"registration.read_more" = "Read More";
+"registration.read_less" = "Read Less";
+"registration.verify_aadhaar" = "VERIFY AADHAAR";
+
+"registration.aadhaar_encryption_failed" = "Unable to encrypt Aadhaar number.";
+
+"registration.consent_short" = "I hereby state that I have no objection in authenticating myself with the Aadhaar-based authentication system and consent to providing my Aadhaar number...";
+
+"registration.consent_full" = "I hereby state that I have no objection in authenticating myself with the Aadhaar-based authentication system and consent to providing my Aadhaar number, biometric and/or One Time Pin (OTP) data for Aadhaar-based authentication for the purposes of availing the Unified IT Platform for DDUGKY and RSETI from the National Informatics Centre.\n\nI understand that the biometrics and/or OTP I provide for authentication shall be used only for authenticating my identity through the Aadhaar authentication system for that specific transaction and for no other purposes.\n\nI understand that the National Informatics Centre shall ensure the security and confidentiality of my personal identity data provided for the purpose of Aadhaar-based authentication.";
+
+"registration.select_state_title" = "Select your state";
+"registration.select_state_description" = "Please select the state where you want to register.";
+
+"common.continue" = "CONTINUE";
+"common.send_otp" = "SEND OTP";
+"common.submit" = "SUBMIT";
+"common.verify" = "VERIFY";
+"common.resend_otp" = "Resend OTP";
+"common.done" = "DONE";

@@ -2,15 +2,16 @@ import SwiftUI
 
 struct AppButton: View {
 
-    let title: LocalizedStringKey
+    // MARK: - Properties
 
+    let title: String
     let icon: String?
-
     let action: () -> Void
 
     var isLoading: Bool = false
-
     var isDisabled: Bool = false
+
+    // MARK: - Body
 
     var body: some View {
 
@@ -38,12 +39,14 @@ struct AppButton: View {
                             )
                         }
 
-                        AppText(
-                            title,
-                            size: 17,
-                            weight: .semibold,
-                            color: .white
-                        )
+                        Text(verbatim: title)
+                            .font(
+                                .system(
+                                    size: 17,
+                                    weight: .semibold
+                                )
+                            )
+                            .foregroundStyle(.white)
 
                         Spacer()
 
